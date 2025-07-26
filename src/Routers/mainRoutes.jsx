@@ -1,0 +1,109 @@
+import axios from "axios";
+import { createBrowserRouter } from "react-router";
+import DashboardLayout from "../layouts/DashboardLayout";
+import RootLayout from "../layouts/RootLayout";
+import AddBooks from "../pages/AddBooks";
+import AllUsers from "../pages/AllUsers";
+import AvailableBooks from "../pages/AvailableBooks";
+import Dashboard from "../pages/Dashboard";
+import DetailsPage from "../pages/DetailsPage";
+import Error from "../pages/Error";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import MyBooks from "../pages/MyBooks";
+import Register from "../pages/Register";
+import DonationRequests from "../pages/Blood-requests(/DonationRequests";
+import Blog from "../pages/Bloge/Blog";
+import Reed_More from "../pages/Bloge/Reed_More";
+import PrivateRoute from "./PrivateRoute";
+import DonorSearch from "../pages/DonorSearch/DonorSearch";
+import AddBloge from "../pages/Bloge/AddBloge";
+
+const mainRoutes = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout></RootLayout>,
+    errorElement: <Error></Error>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: "/blog",
+        element: <Blog></Blog>
+      },
+      {
+        path: "/reed_more",
+        element: <Reed_More></Reed_More>
+
+      },
+      {
+        path: "/donation_Requests",
+        element: <DonationRequests></DonationRequests>
+      },
+      {
+        path: "/donor_Search",
+        element: <DonorSearch></DonorSearch>
+      },
+      {
+        path: "/add_blog",
+        element: <AddBloge></AddBloge>
+      },
+      {
+        path: "/available-books",
+        element: <PrivateRoute><AvailableBooks /></PrivateRoute>,
+      },
+      {
+        path: "/details/:bookId",
+        element: <DetailsPage />,
+        loader: async ({ params }) => {
+          const { data } = await axios.get(
+            `http://localhost:5000/details/${params.bookId}`
+          );
+          return data;
+        },
+      },
+      {
+        path: "/dashboard",
+        element:  <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          
+          {
+            path: "add-book",
+            element: <AddBooks />,
+          },
+          {
+            path: "all-users",
+            element: <AllUsers />,
+          },
+          {
+            path: "my-books",
+            element: <MyBooks />,
+          },
+          {
+            path: "my-requests",
+            element: <MyBooks />,
+          },
+        ],
+      },
+      {
+        path: "login",
+        element: <Login></Login>,
+      },
+      {
+        path: "registration",
+        element: <Register></Register>,
+      },
+      {
+        
+      },
+    ],
+  },
+]);
+
+export default mainRoutes;
