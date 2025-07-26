@@ -3,6 +3,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { Link, NavLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../providers/AuthProvider';
+import { FaTint } from 'react-icons/fa';
 
 const Header = () => {
   const { user, logOut } = useContext(AuthContext);
@@ -10,32 +11,32 @@ const Header = () => {
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [scrollTimeout, setScrollTimeout] = useState(null);
 
-   const handleLogOut = () => {
-        logOut()
-            .then(() => {
-                Swal.fire({
-                    title: "Congratulation!",
-                    text: "LogOut Successful!",
-                    icon: "success"
-                });
-                console.log('logOUt successful');
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    };
+  const handleLogOut = () => {
+    logOut()
+      .then(() => {
+        Swal.fire({
+          title: "Congratulation!",
+          text: "LogOut Successful!",
+          icon: "success"
+        });
+        console.log('logOUt successful');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const navLinks = (
     <>
       <li><NavLink to="/" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Home</NavLink></li>
-      
+
       <li><NavLink to="/blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Blogs</NavLink></li>
       <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
       <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
       <li><NavLink to="/add_blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Add Bloge</NavLink></li>
-      
-      
-      
+
+
+
     </>
   );
 
@@ -75,8 +76,11 @@ const Header = () => {
           </ul>
         </div>
         <Link to="/" className="flex items-center gap-2 ml-3">
-          <img src="https://i.ibb.co/YT4cqW4V/Whats-App-Image-2025-07-16-at-03-44-14-43bc9fb4-removebg-preview.png" alt="logo" className="w-10 h-10" />
-          <span className="text-xl font-bold text-[#E53935]">Blood<span className="text-[#39ab56]">Connect</span></span>
+          <div className="flex items-center pt-2 gap-2 mb-4 text-red-600 font-bold text-2xl">
+            <FaTint className="text-3xl" />
+            <span className=" font-bold text-[#E53935]">Blood<span className="text-[#39ab56]">Connect</span></span>
+          </div>
+          
         </Link>
       </div>
 
