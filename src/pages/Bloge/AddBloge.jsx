@@ -43,7 +43,7 @@ export default function AddBloge() {
       <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-3xl p-6 sm:p-10 md:p-12">
         {/* Heading */}
         <h2 className="text-3xl sm:text-4xl font-bold text-center text-red-600 mb-2 flex justify-center items-center gap-2">
-          <FaPen className="text-red-500" />
+          <FaPen className="text-red-500 animate-pulse" />
           Add New Blog
         </h2>
         <p className="text-center text-gray-500 mb-8 text-xs sm:text-sm tracking-wide uppercase">

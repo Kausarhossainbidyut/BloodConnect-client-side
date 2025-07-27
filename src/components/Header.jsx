@@ -28,10 +28,22 @@ const Header = () => {
   const navLinks = (
     <>
       <li><NavLink to="/" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Home</NavLink></li>
+
       <li><NavLink to="/blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Blogs</NavLink></li>
+
       <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
+
       <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
+
+      <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>/donation_Requests</NavLink></li>
+
       <li><NavLink to="/add_blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Add Blog</NavLink></li>
+      
+
+
+
+
+
 
       {/* Small device এ dropdown এর মধ্যে SignUp দেখাবে যদি user না থাকে */}
       {!user && (
@@ -106,6 +118,7 @@ const Header = () => {
         <ul className="menu menu-horizontal px-1 gap-4 text-[#1E88E5] font-medium">
           <li><NavLink to="/" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Home</NavLink></li>
           <li><NavLink to="/blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Blogs</NavLink></li>
+          <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
           <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
           <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
           <li><NavLink to="/add_blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Add Blog</NavLink></li>

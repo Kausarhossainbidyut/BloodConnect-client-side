@@ -12,12 +12,13 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MyBooks from "../pages/MyBooks";
 import Register from "../pages/Register";
-import DonationRequests from "../pages/Blood-requests(/DonationRequests";
+import DonationRequests from "../pages/Blood-requests/DonationRequests";
 import Blog from "../pages/Bloge/Blog";
 import Reed_More from "../pages/Bloge/Reed_More";
 import PrivateRoute from "./PrivateRoute";
 import DonorSearch from "../pages/DonorSearch/DonorSearch";
 import AddBloge from "../pages/Bloge/AddBloge";
+import DonationRequestDetails from "../pages/Blood-requests/DonationRequestDetails";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -37,6 +38,15 @@ const mainRoutes = createBrowserRouter([
         path: "/reed_more",
         element: <Reed_More></Reed_More>
 
+      },
+      {
+        path: "/donation_Requests",
+        element: <DonationRequests></DonationRequests>
+
+      },
+      {
+        path: "/donation_details",
+        element: <PrivateRoute><DonationRequestDetails/></PrivateRoute>
       },
       {
         path: "/donation_Requests",
