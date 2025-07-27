@@ -11,6 +11,8 @@ const DonorSearch = () => {
   });
   const [donors, setDonors] = useState([]);
   const [isSearched, setIsSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
@@ -18,6 +20,9 @@ const DonorSearch = () => {
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setIsSearched(false);
     try {
       const res = await axios.get("http://localhost:5000/donors"); // Donor list from backend
       const matched = res.data.filter(
@@ -30,26 +35,31 @@ const DonorSearch = () => {
       setIsSearched(true);
 
       if (matched.length === 0) {
-        toast.error("No donor found for this search.");
+        setError("No donor found for this search.");
       }
     } catch (err) {
-      toast.error("Failed to fetch donors.");
+      setError("Failed to fetch donors.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">🔍 Search Donors</h2>
+      <h2 className="text-2xl font-bold mb-6 text-center">🔍 Search Donors</h2>
+
+      {/* Search Form */}
       <form
         onSubmit={handleSearch}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6"
       >
+        {/* Blood Group */}
         <select
           name="bloodGroup"
           value={filters.bloodGroup}
           onChange={handleChange}
           required
-          className="border p-2 rounded"
+          className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 transition"
         >
           <option value="">Select Blood Group</option>
           {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
@@ -59,12 +69,13 @@ const DonorSearch = () => {
           ))}
         </select>
 
+        {/* District */}
         <select
           name="district"
           value={filters.district}
           onChange={handleChange}
           required
-          className="border p-2 rounded"
+          className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 transition"
         >
           <option value="">Select District</option>
           {["Dhaka", "Madaripur", "Barishal", "Rajshahi"].map((dist) => (
@@ -74,12 +85,13 @@ const DonorSearch = () => {
           ))}
         </select>
 
+        {/* Upazila */}
         <select
           name="upazila"
           value={filters.upazila}
           onChange={handleChange}
           required
-          className="border p-2 rounded"
+          className="border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 transition"
         >
           <option value="">Select Upazila</option>
           {["Madaripur Sadar", "Shibchar", "Kalkini"].map((upz) => (
@@ -89,30 +101,45 @@ const DonorSearch = () => {
           ))}
         </select>
 
+        {/* Search Button */}
         <button
           type="submit"
-          className="md:col-span-3 bg-red-600 text-white py-2 rounded hover:bg-red-700"
+          className="sm:col-span-3 bg-red-600 text-white py-3 rounded-md hover:bg-red-700 transition disabled:opacity-50"
+          disabled={loading}
         >
-          Search
+          {loading ? "Searching..." : "Search"}
         </button>
       </form>
 
-      {isSearched && (
+      {/* Error message */}
+      {error && (
+        <p className="text-center text-red-600 font-semibold mb-6">{error}</p>
+      )}
+
+      {/* Results */}
+      {isSearched && donors.length > 0 && (
         <>
-          <h3 className="text-xl font-semibold mb-3">Search Results:</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <h3 className="text-xl font-semibold mb-4">Search Results:</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {donors.map((donor) => (
-              <Card key={donor._id} className="p-4 border rounded shadow">
+              <div
+                key={donor._id}
+                className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg shadow hover:shadow-lg transition"
+              >
                 <img
                   src={donor.avatar}
                   alt={donor.name}
-                  className="w-20 h-20 rounded-full object-cover mb-2"
+                  className="w-20 h-20 rounded-full object-cover flex-shrink-0"
                 />
-                <h4 className="font-bold text-lg">{donor.name}</h4>
-                <p>📧 {donor.email}</p>
-                <p>🩸 Blood Group: {donor.bloodGroup}</p>
-                <p>📍 {donor.district}, {donor.upazila}</p>
-              </Card>
+                <div>
+                  <h4 className="text-lg font-bold text-gray-800">{donor.name}</h4>
+                  <p className="text-gray-600">📧 {donor.email}</p>
+                  <p className="text-gray-600">🩸 Blood Group: {donor.bloodGroup}</p>
+                  <p className="text-gray-600">
+                    📍 {donor.district}, {donor.upazila}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </>
