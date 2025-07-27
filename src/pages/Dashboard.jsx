@@ -9,7 +9,7 @@ export default function Dashboard() {
     return <h1>Loading</h1>;
   }
 
-  if (role === "user") {
+  if (role === "donor") {
     return <div>User Dashboard</div>;
   }
   if (role === "moderator") {

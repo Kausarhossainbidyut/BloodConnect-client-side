@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BiEnvelope, BiKey } from "react-icons/bi";
 import Title from "../components/Title";
 import { AuthContext } from "../providers/AuthProvider";
@@ -11,9 +11,11 @@ const Login = () => {
   const { signIn } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const [loading,setLoading]=useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     const form = e.target;
     const email = form.email.value;
     const pass = form.pass.value;
@@ -83,9 +85,10 @@ const Login = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300"
+                className={`w-full bg-red-500 disabled:bg-gray-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`}
+                disabled={loading}
               >
-                Login Now
+                {loading?<span className="loading loading-spinner loading-lg"></span>:" Login Now"}
               </button>
 
               {/* Link to Register */}

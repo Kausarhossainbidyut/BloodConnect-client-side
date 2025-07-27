@@ -42,9 +42,6 @@ const Header = () => {
 
 
 
-
-
-
       {/* Small device এ dropdown এর মধ্যে SignUp দেখাবে যদি user না থাকে */}
       {!user && (
         <li className="block lg:hidden">
@@ -115,7 +112,7 @@ const Header = () => {
 
       {/* Center menu: শুধুমাত্র large ডিভাইসে দেখাবে */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-4 text-[#1E88E5] font-medium">
+        <ul className="menu menu-horizontal  px-1 gap-4 text-[#1E88E5] font-medium">
           <li><NavLink to="/" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Home</NavLink></li>
           <li><NavLink to="/blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Blogs</NavLink></li>
           <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>

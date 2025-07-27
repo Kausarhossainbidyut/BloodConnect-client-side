@@ -6,10 +6,15 @@ import Blood_Donation from "../assets/Blood_Donation.json";
 import Title from "../components/Title";
 import { AuthContext } from "../providers/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 import districtsData from "../assets/district.json";
 import upazilasData from "../assets/upazila.json";
 
+const imageBB_API_KEY = import.meta.env.VITE_IMAGEBB_API_KEY;
+const imageBB_URL = `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`;
+
 const Register = () => {
+  const [loading, setLoading]=useState(false)
   const goTo = useNavigate();
   const { createUser, setUser, updateUser } = useContext(AuthContext);
 
@@ -46,22 +51,20 @@ const Register = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     const form = e.target;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
-    console.log();
-    
 
-    const {
-      name,
-      image,
-      email,
-      pass,
-      confirmPassword,
-     
-    } = data;
+    const name = formData.get("name");
+    const imageFile = formData.get("image");
+    const email = formData.get("email");
+    const pass = formData.get("pass");
+    const confirmPassword = formData.get("confirmPassword");
+    const bloodGroup = formData.get("bloodGroup");
+    const district = formData.get("district");
+    const upazila = formData.get("upazila");
 
     if (pass !== confirmPassword) {
       Swal.fire("Error", "Passwords do not match", "error");
@@ -70,32 +73,65 @@ const Register = () => {
 
     if (!isValidPassword(pass)) return;
 
-    createUser(email, pass)
-      .then((res) => {
-        updateUser({ displayName: name, photoURL: image }).then(() => {
-          setUser({ ...res.user, displayName: name, photoURL: image });
+    try {
+      // ✅ Upload image to imageBB
+      const imgForm = new FormData();
+      imgForm.append("image", imageFile);
 
-          Swal.fire("Success", "Registered successfully!", "success").then(() => {
-            goTo(location.state ? location.state : "/");
-          });
-        });
-      })
-      .catch((err) => {
-        if (err.code === "auth/email-already-in-use") {
-          Swal.fire({
-            title: "Already Registered",
-            text: "This email is already registered. Please go to login.",
-            icon: "warning",
-            confirmButtonText: "Go to Login",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              goTo("/login");
-            }
-          });
-        } else {
-          Swal.fire("Registration Failed", err.message, "error");
-        }
+      const imgUploadRes = await axios.post(imageBB_URL, imgForm);
+      const avatarUrl = imgUploadRes.data.data.display_url;
+
+      // ✅ Firebase Registration
+      const res = await createUser(email, pass);
+      await updateUser({ displayName: name, photoURL: avatarUrl });
+      setUser({ ...res.user, displayName: name, photoURL: avatarUrl });
+
+      // ✅ Get District Name from ID
+      const districtName = districtsData.find((d) => String(d.id) === String(district))?.name || "";
+
+      // ✅ Save to MongoDB
+      const userInfo = {
+        name,
+        email,
+        avatar: avatarUrl,
+        bloodGroup,
+        district: districtName,
+        upazila,
+        password: pass,
+        role: "donor",
+        status: "active",
+      };
+
+     const result = await axios.post("http://localhost:5000/api/users", userInfo);
+      console.log(result);
+      if(result.data.insertedId)
+      {
+        setLoading(false)
+      }
+      
+      // ✅ Success Alert
+      Swal.fire("Success", "Registered Successfully!", "success").then(() => {
+        goTo(location.state ? location.state : "/");
       });
+
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        setLoading(false)
+        Swal.fire({
+          title: "Already Registered",
+          text: "This email is already registered. Please go to login.",
+          icon: "warning",
+          confirmButtonText: "Go to Login",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            goTo("/login");
+          }
+        });
+      } else {
+        setLoading(false)
+        Swal.fire("Registration Failed", err.message, "error");
+      }
+    }
   };
 
   return (
@@ -122,13 +158,13 @@ const Register = () => {
                 />
               </div>
 
-              {/* Image */}
+              {/* Image File Upload */}
               <div className="flex items-center border-b-2 border-gray-400 focus-within:border-orange-500 transition">
                 <BiImageAdd className="text-xl text-gray-600 mr-2" />
                 <input
-                  type="text"
+                  type="file"
                   name="image"
-                  placeholder="Image URL"
+                  accept="image/*"
                   required
                   className="flex-1 py-2 bg-transparent outline-none text-gray-800"
                 />
@@ -154,14 +190,9 @@ const Register = () => {
                 defaultValue=""
               >
                 <option disabled value="">Choose Blood Group</option>
-                <option>A+</option>
-                <option>A-</option>
-                <option>B+</option>
-                <option>B-</option>
-                <option>AB+</option>
-                <option>AB-</option>
-                <option>O+</option>
-                <option>O-</option>
+                {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
+                  <option key={group}>{group}</option>
+                ))}
               </select>
 
               {/* District */}
@@ -219,12 +250,13 @@ const Register = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300"
+                className={`w-full bg-red-500 disabled:bg-gray-400  hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`}
+                disabled={loading}
               >
-                Register Now
+               {loading?<span className="loading loading-spinner loading-lg"></span>:" Register Now"}
               </button>
 
-              {/* Link to Login */}
+              {/* Login Link */}
               <p className="text-center text-sm text-gray-700 pt-4 border-t">
                 Already have an account?{" "}
                 <Link to="/login" className="text-blue-600 underline hover:text-blue-800">
