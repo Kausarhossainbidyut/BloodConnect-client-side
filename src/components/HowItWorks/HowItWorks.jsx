@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaTint, FaUserPlus, FaSearch, FaHandsHelping } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
 const steps = [
   {
@@ -30,17 +31,21 @@ const HowItWorks = () => {
       <h2 className="text-4xl font-bold text-center text-[#B91C1C] mb-16">
         How It Works
       </h2>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {steps.map((step, index) => (
-          <div
+          <motion.div
             key={index}
+            initial={{ x: 100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.2 }}
             className="bg-white border border-red-100 rounded-2xl p-6 text-center shadow-sm hover:shadow-xl hover:bg-[#FEE2E2] transition duration-300"
           >
             <div className="mb-4 flex justify-center">{step.icon}</div>
             <h3 className="text-lg font-semibold text-[#B91C1C] mb-2">{step.title}</h3>
             <p className="text-gray-600 text-sm">{step.desc}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
