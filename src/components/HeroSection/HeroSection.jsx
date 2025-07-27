@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const HeroSection = () => {
   return (
@@ -15,12 +16,12 @@ const HeroSection = () => {
             Join our community of heroes making a difference one donation at a time.
           </p>
           <div className="flex gap-4">
-            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-5 rounded-lg transition duration-300">
+            <Link to={"/registration"} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-5 rounded-lg transition duration-300">
               ❤️ Become a Donor
-            </button>
-            <button className="border-2 border-red-600 text-red-600 hover:bg-red-100 font-semibold py-2 px-5 rounded-lg transition duration-300">
+            </Link>
+            <Link to={"/donor_Search"} className="border-2 border-red-600 text-red-600 hover:bg-red-100 font-semibold py-2 px-5 rounded-lg transition duration-300">
               Find Blood Donors
-            </button>
+            </Link>
           </div>
         </div>
 

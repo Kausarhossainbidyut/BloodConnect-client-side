@@ -1,5 +1,7 @@
 import Banner from "../components/Banner";
 import CallToAction from "../components/CallToAction/CallToAction";
+import ContactUs from "../components/FeaturedSection/ContactUs/ContactUs";
+import FeaturedSection from "../components/FeaturedSection/FeaturedSection";
 import Footer from "../components/Footer/Footer";
 import ChooseSection from "../components/HeroSection/ChooseSection";
 import HeroSection from "../components/HeroSection/HeroSection"
@@ -11,10 +13,12 @@ const Home = () => {
     <>
       {/* <Banner></Banner> */}
       <HeroSection></HeroSection>
+      <FeaturedSection></FeaturedSection>
       <HomeSection></HomeSection>
       <HowItWorks></HowItWorks>
       <ChooseSection></ChooseSection>
       <CallToAction></CallToAction>
+      <ContactUs></ContactUs>
       
     </>
   );
