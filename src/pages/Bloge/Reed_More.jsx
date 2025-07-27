@@ -1,82 +1,79 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FaUser, FaRegCalendarAlt } from 'react-icons/fa';
-import { Link } from 'react-router';
 
 const Reed_More = () => {
-    return (
-        <div className="min-h-screen bg-white  py-10 px-4 md:px-20">
-            <div>
-                <Link to={"/blog"} className="inline-flex mb-5 items-center gap-2 px-4 py-2 
-                 bg-white border border-gray-300 text-gray-800 hover:bg-gray-100 hover:shadow transition duration-200">
-                    <span className="text-2xl">←</span>
-                    <span className="text-base font-medium">Back to Blog
-                    </span>
-                </Link >
+  const blog = {
+    title: "The Journey of a Blood Donation: From Donor to Recipient",
+    author: "Dr. Emily Carter",
+    date: "July 20, 2025",
+    image: "https://i.ibb.co/HD8MH8hf/images-21.jpg",
+    content: `
+Donating blood is a simple act of kindness, but the journey your donation takes is a complex and fascinating process.
 
-            </div>
-            <div className="max-w-3xl mx-auto">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                    The Journey of a Blood Donation: From Donor to Recipient
-                </h1>
-                <div className="flex items-center text-sm text-gray-600 mb-6 space-x-4">
-                    <span className="flex items-center">
-                        <FaUser className="w-4 h-4 mr-1" /> Dr. Emily Carter
-                    </span>
-                    <span className="flex items-center">
-                        <FaRegCalendarAlt className="w-4 h-4 mr-1" /> July 20, 2025
-                    </span>
-                </div>
+It all starts with you, the donor, rolling up your sleeve. After a quick health screening, about one pint of blood is collected, a process that usually takes less than 15 minutes.
 
-                <img
-                    src="https://i.ibb.co/HD8MH8hf/images-21.jpg"
-                    alt="Blog preview"
-                    className="rounded-xl w-full h-auto mb-6"
-                />
+---
 
-                <div className="text-gray-800 space-y-6 text-base leading-7">
-                    <p>
-                        Donating blood is a simple act of kindness, but the journey your donation takes is a complex and fascinating
-                        process. It all starts with you, the donor, rolling up your sleeve. After a quick health screening, about one pint
-                        of blood is collected, a process that usually takes less than 15 minutes.
-                    </p>
+**Step 1: The Donation**
+The first step is the collection itself. Your blood is drawn into a sterile bag and sealed with a unique barcode that will track it throughout its journey. You'll be given snacks and a drink to help your body replenish fluids.
 
-                    <h2 className="text-lg font-semibold text-gray-900">Step 1: The Donation</h2>
-                    <p>
-                        The first step is the collection itself. Your blood is drawn into a sterile bag. Once the donation is complete, the bag is
-                        sealed with a unique barcode that will track it throughout its journey. You'll be given snacks and a drink to help your
-                        body replenish fluids.
-                    </p>
+**Step 2: Processing and Testing**
+Your donated blood is transported to a processing center. There, it is spun in a centrifuge to separate it into red blood cells, plasma, and platelets. Samples are tested for infectious diseases to ensure safety.
 
-                    <h2 className="text-lg font-semibold text-gray-900">Step 2: Processing and Testing</h2>
-                    <p>
-                        Your donated blood is then transported to a processing center. Here, it is spun in a centrifuge to separate it into
-                        red blood cells, plasma, and platelets. Globally, all samples taken for these components are sent to labs for various
-                        medical examinations. Samples of your blood will also be tested for infectious diseases to confirm their effectiveness
-                        and cleanliness, thus ensuring the safety of the blood supply.
-                    </p>
+**Step 3: Storage**
+Red blood cells are refrigerated for up to 42 days, platelets last 5 days, and plasma can be frozen for up to a year.
 
-                    <h2 className="text-lg font-semibold text-gray-900">Step 3: Storage</h2>
-                    <p>
-                        Once tested and separated, the blood components are stored in special conditions. Red blood cells are refrigerated and
-                        can be stored for up to 42 days. Platelets are stored at room temperature and must be used within five days. Frozen
-                        plasma can last up to a year.
-                    </p>
+**Step 4: Distribution and Transfusion**
+When a hospital needs blood, it places an order. If matched with a recipient, your donation saves a life. From one arm to another — you are a hero.
+    `,
+  };
 
-                    <h2 className="text-lg font-semibold text-gray-900">Step 4: Distribution and Transfusion</h2>
-                    <p>
-                        When a hospital needs blood, they place an order with the blood center. The requested components are shipped and
-                        delivered promptly to the hospital. There, if matched correctly with a recipient's blood type and condition, your
-                        donation saves a life. Finally, the blood is transfused into a patient in need, completing its life-saving journey.
-                    </p>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-[#fffafa] to-[#ffe6e6] py-8 px-4 sm:px-6 md:px-10">
+      <div className="max-w-4xl mx-auto">
+        {/* Back Button */}
+        <Link
+          to="/blog"
+          className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-red-400 to-red-600 text-white shadow-md hover:brightness-110 transition duration-300 text-sm sm:text-base"
+        >
+          <span className="text-lg">←</span> <span>Back to Blog</span>
+        </Link>
 
-                    <p>
-                        From one arm to another, this is how lives can be saved. Your single act of generosity has a profound impact,
-                        providing hope and healing to patients in need. Thank you for being a hero.
-                    </p>
-                </div>
-            </div>
+        {/* Blog Card */}
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden p-5 sm:p-8 md:p-10 space-y-6 border border-red-100">
+          {/* Title */}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-red-700 leading-tight">
+            {blog.title}
+          </h1>
+
+          {/* Meta Info */}
+          <div className="flex flex-wrap items-center gap-4 text-gray-500 text-sm sm:text-base">
+            <span className="flex items-center gap-1">
+              <FaUser className="text-red-500" />
+              {blog.author}
+            </span>
+            <span className="flex items-center gap-1">
+              <FaRegCalendarAlt className="text-red-500" />
+              {blog.date}
+            </span>
+          </div>
+
+          {/* Image */}
+          <img
+            src={blog.image}
+            alt="Blog"
+            className="w-full h-auto rounded-xl shadow-md border border-gray-200"
+          />
+
+          {/* Content */}
+          <div className="text-gray-800 text-base sm:text-lg leading-relaxed whitespace-pre-line">
+            {blog.content}
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Reed_More;
