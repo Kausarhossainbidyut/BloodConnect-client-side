@@ -48,8 +48,9 @@ const Blog = () => {
           <div className="flex text-red-600 justify-center mb-4">
             <FaTint className="text-4xl sm:text-5xl" />
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-red-700 mb-2 flex justify-center items-center gap-2">
-            <FaHeartbeat className="text-red-500" /> BloodConnect Blog
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-red-500 mb-2 flex justify-center items-center gap-2">
+            <FaHeartbeat className="text-red-700 animate-pulse" />
+            BloodConnect Blog
           </h1>
           <p className="text-gray-600 text-base sm:text-lg md:text-xl max-w-3xl mx-auto">
             <FaBookOpen className="inline-block mr-2 text-red-400" />
@@ -87,8 +88,7 @@ const Blog = () => {
                     <FaUser className="mr-1 text-red-500" /> {blog.author}
                   </span>
                   <span className="flex items-center">
-                    <FaRegCalendarAlt className="mr-1 text-red-500" />{" "}
-                    {blog.date}
+                    <FaRegCalendarAlt className="mr-1 text-red-500" /> {blog.date}
                   </span>
                 </div>
                 <h2 className="text-md sm:text-lg font-bold text-gray-800 leading-snug flex items-center gap-2">
@@ -99,7 +99,8 @@ const Blog = () => {
                   {blog.summary}
                 </p>
                 <Link
-                  to={`/reed_more/${blog._id}`}
+                  //to={`/reed_more/${blog._id}`}
+                  to={"/reed_more"}
                   className="inline-block text-sm font-semibold text-red-600 hover:underline"
                 >
                   Read More →
