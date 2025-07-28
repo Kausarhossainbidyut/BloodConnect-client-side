@@ -117,7 +117,7 @@ const Header = () => {
           <li><NavLink to="/blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Blogs</NavLink></li>
           <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
           <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
-          <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
+          
           <li><NavLink to="/add_blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Add Blog</NavLink></li>
         </ul>
       </div>
@@ -135,7 +135,8 @@ const Header = () => {
                 />
               </div>
             </div>
-            <ul tabIndex={0} className="menu dropdown-content bg-green-900 rounded-box font-bold text-white text-[18px]">
+            <ul tabIndex={0} className="menu dropdown-content rounded-box font-bold bg-[#edd7d7] text-[14px]">
+              <li><NavLink to="/dashboard" className={({ isActive }) => isActive ? "text-gray-700 underline" : ""}>Dashboard</NavLink></li>
               <li><a onClick={handleLogOut}><IoIosLogOut size={20} /> Logout</a></li>
             </ul>
           </div>
