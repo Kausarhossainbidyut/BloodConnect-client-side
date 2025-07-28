@@ -1,75 +1,105 @@
-import React from "react";
-import { FaTint, FaEye } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaTint, FaEye, FaMapMarkerAlt, FaClock, FaCalendarAlt, FaTint as BloodDropIcon } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const DonationRequests = () => {
+  const [requests, setRequests] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/donation-requests") // তোমার API URL দিন
+      .then((res) => setRequests(res.data))
+      .catch((err) => {
+        console.error("Error fetching donation requests:", err);
+      });
+  }, []);
+
+  // Date formatting function
+  const formatDate = (isoString) => {
+    if (!isoString) return "N/A";
+    const dateObj = new Date(isoString);
+    return dateObj.toLocaleDateString(undefined, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  // Time formatting function
+  const formatTime = (isoString) => {
+    if (!isoString) return "N/A";
+    const dateObj = new Date(isoString);
+    return dateObj.toLocaleTimeString(undefined, {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    });
+  };
+
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-extrabold text-center text-red-600 mb-10 flex items-center justify-center gap-2">
-        <FaTint className="text-red-500 animate-pulse" />
+    <div className="max-w-7xl mx-auto px-6 py-12 bg-gray-50 min-h-screen">
+      {/* Header */}
+      <h1 className="text-4xl font-extrabold text-center text-red-700 mb-12 flex items-center justify-center gap-3 select-none">
+        <FaTint className="text-red-600 animate-pulse text-4xl" />
         Blood Donation Requests
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* --------- Card 1 --------- */}
-        <div className="border border-red-200 rounded-2xl shadow-lg hover:shadow-red-300 transition p-5 bg-white flex flex-col gap-2">
-          <h3 className="text-xl font-bold text-red-600">Rahim Uddin</h3>
-          <p className="text-gray-700">
-            📍 <span className="font-medium">Dhaka, Uttara</span>
+      {/* Requests Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {requests.length === 0 ? (
+          <p className="col-span-full text-center text-gray-500 text-lg">
+            No pending donation requests available.
           </p>
-          <p className="text-gray-800 font-semibold">
-            🩸 Blood Group: <span className="text-red-600">A+</span>
-          </p>
-          <p className="text-gray-600">📅 2025-08-05</p>
-          <p className="text-gray-600">⏰ 10:00 AM</p>
-          <Link
-            to="/donation_details"
-            className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold"
-          >
-            <FaEye />
-            View
-          </Link>
-        </div>
+        ) : (
+          requests.map((req) => (
+            <div
+              key={req._id}
+              className="border border-red-300 rounded-3xl shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform duration-300 bg-white p-6 flex flex-col justify-between"
+            >
+              <div>
+                {/* Recipient Name */}
+                <h3 className="text-2xl font-semibold text-red-700 mb-4 truncate">
+                  {req.name}
+                </h3>
 
-        {/* --------- Card 2 --------- */}
-        <div className="border border-red-200 rounded-2xl shadow-lg hover:shadow-red-300 transition p-5 bg-white flex flex-col gap-2">
-          <h3 className="text-xl font-bold text-red-600">Karim Ahmed</h3>
-          <p className="text-gray-700">
-            📍 <span className="font-medium">Madaripur, Shibchar</span>
-          </p>
-          <p className="text-gray-800 font-semibold">
-            🩸 Blood Group: <span className="text-red-600">O-</span>
-          </p>
-          <p className="text-gray-600">📅 2025-08-10</p>
-          <p className="text-gray-600">⏰ 2:30 PM</p>
-          <Link
-            to="/donation_details"
-            className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold"
-          >
-            <FaEye />
-            View
-          </Link>
-        </div>
+                {/* Location */}
+                <p className="text-gray-700 flex items-center gap-2 mb-3 font-medium">
+                  <FaMapMarkerAlt className="text-red-600" />
+                  <span>{req.district}, {req.upazila}</span>
+                </p>
 
-        {/* --------- Card 3 --------- */}
-        <div className="border border-red-200 rounded-2xl shadow-lg hover:shadow-red-300 transition p-5 bg-white flex flex-col gap-2">
-          <h3 className="text-xl font-bold text-red-600">Sumaiya Akter</h3>
-          <p className="text-gray-700">
-            📍 <span className="font-medium">Barishal, Barishal Sadar</span>
-          </p>
-          <p className="text-gray-800 font-semibold">
-            🩸 Blood Group: <span className="text-red-600">B+</span>
-          </p>
-          <p className="text-gray-600">📅 2025-08-15</p>
-          <p className="text-gray-600">⏰ 9:00 AM</p>
-          <Link
-            to="/donation_details"
-            className="mt-3 inline-flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold"
-          >
-            <FaEye />
-            View
-          </Link>
-        </div>
+                {/* Blood Group */}
+                <p className="text-red-600 font-semibold text-lg mb-4 flex items-center gap-2">
+                  <BloodDropIcon />
+                  Blood Group: <span className="uppercase">{req.bloodGroup}</span>
+                </p>
+
+                {/* Date */}
+                <p className="text-gray-600 mb-2 flex items-center gap-2">
+                  <FaCalendarAlt />
+                  Date: <span className="font-medium">{formatDate(req.createdAt)}</span>
+                </p>
+
+                {/* Time */}
+                <p className="text-gray-600 flex items-center gap-2">
+                  <FaClock />
+                  Time: <span className="font-medium">{formatTime(req.createdAt)}</span>
+                </p>
+              </div>
+
+              {/* View Details Button */}
+              <Link
+                to={`/donation-requests/${req._id}`}
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-red-600 px-5 py-3 text-white font-semibold hover:bg-red-700 shadow-md hover:shadow-lg transition"
+                aria-label={`View details for ${req.name}`}
+              >
+                <FaEye />
+                View Details
+              </Link>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

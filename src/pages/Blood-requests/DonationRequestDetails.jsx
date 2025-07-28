@@ -1,87 +1,151 @@
-import React from "react";
-import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { Link } from "react-router";
+import React, { useContext, useState } from "react";
+import {
+  FaTint,
+  FaMapMarkerAlt,
+  FaHospital,
+  FaEnvelope,
+  FaUser,
+  FaClock,
+  FaCalendarAlt,
+  FaCommentDots,
+  FaCheck,
+} from "react-icons/fa";
+import axios from "axios";
+import { AuthContext } from "../../providers/AuthProvider";
+import { useLoaderData } from "react-router";
 
 const DonationRequestDetails = () => {
+ const { user, loading } = useContext(AuthContext);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [request, setRequest] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/login");
+    }
+  }, [loading, user, navigate]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/donation-requests/${id}`);
+        setRequest(res.data);
+      } catch (err) {
+        console.error("Failed to load donation request", err);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  const handleDonate = async () => {
+    try {
+      const res = await axios.patch(`http://localhost:5000/api/donation-requests/${id}`, {
+        donationStatus: "inprogress",
+        donorName: user.displayName,
+        donorEmail: user.email,
+      });
+      toast.success("Donation confirmed!");
+      setShowModal(false);
+      setRequest({ ...request, donationStatus: "inprogress" });
+    } catch (err) {
+      toast.error("Failed to confirm donation");
+    }
+  };
+
+  if (!request) return <div>Loading...</div>;
+
+
+  if (!request) return <p className="text-center mt-10">Loading...</p>;
+
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 md:p-8 bg-white shadow-xl rounded-3xl mt-10 border border-red-200">
-      <Link
-        to="/donation_Requests"
-        className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-gradient-to-r from-red-400 to-red-600 text-white shadow-md hover:brightness-110 transition duration-300 text-sm sm:text-base"
-      >
-        <span className="text-lg">←</span> <span>Back to Requests</span>
-      </Link>
-      {/* Header */}
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-center mb-8 text-red-600 border-b border-red-100 pb-4">
-        🩸 Donation Request Details
-      </h2>
+    <div className="max-w-4xl mx-auto px-4 py-12 bg-white shadow-md rounded-3xl mt-10">
+      <h1 className="text-3xl font-bold text-red-600 mb-6 flex items-center gap-2">
+        <FaTint /> Blood Donation Request Details
+      </h1>
 
-      {/* Request Info */}
-      <div className="space-y-4 text-gray-800 text-sm sm:text-base md:text-lg leading-relaxed">
-        <p><strong>👤 Patient Name:</strong> Rahim Uddin</p>
-        <p>
-          <strong>🩸 Blood Group:</strong>{" "}
-          <span className="text-red-600 font-bold">A+</span>
-        </p>
-        <p><strong>📍 District:</strong> Dhaka</p>
-        <p><strong>🏘️ Upazila:</strong> Uttara</p>
-        <p><strong>🏥 Hospital:</strong> Apollo Hospital</p>
-        <p><strong>📅 Date:</strong> 2025-08-05</p>
-        <p><strong>⏰ Time:</strong> 10:00 AM</p>
-        <p><strong>📄 Reason:</strong> Emergency surgery required</p>
-      </div>
-
-      {/* Donate Button */}
-      <div className="mt-10 flex justify-center">
-        <button className="bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg text-base sm:text-lg font-semibold flex items-center gap-2 transition duration-300 shadow-md">
-          <FaCheckCircle />
-          Donate Now
-        </button>
-      </div>
-
-      {/* Confirm Modal UI */}
-      <div className="mt-12 bg-white border border-gray-200 rounded-xl p-4 sm:p-6 md:p-8 shadow-lg max-w-xl mx-auto">
-        <h3 className="text-lg sm:text-xl font-semibold text-red-600 mb-4">Confirm Donation</h3>
-
-        <div className="space-y-4 text-gray-700 text-sm sm:text-base md:text-lg">
+      <div className="grid gap-4 text-gray-700">
+        <DetailRow icon={<FaUser />} label="Requester" value={request.requesterName} />
+        <DetailRow icon={<FaEnvelope />} label="Email" value={request.requesterEmail} />
+        <DetailRow icon={<FaUser />} label="Recipient Name" value={request.recipientName} />
+        <DetailRow
+          icon={<FaMapMarkerAlt />}
+          label="Location"
+          value={`${request.district}, ${request.upazila}`}
+        />
+        <DetailRow icon={<FaHospital />} label="Hospital" value={request.hospital} />
+        <DetailRow icon={<FaMapMarkerAlt />} label="Address" value={request.address} />
+        <DetailRow icon="🩸" label="Blood Group" value={request.bloodGroup} />
+        <DetailRow icon={<FaCalendarAlt />} label="Date" value={request.date} />
+        <DetailRow icon={<FaClock />} label="Time" value={request.time} />
+        <div className="flex items-start gap-2">
+          <FaCommentDots className="text-red-500 mt-1" />
           <div>
-            <label className="block text-sm font-medium mb-1">Donor Name</label>
-            <input
-              type="text"
-              value="John Doe"
-              readOnly
-              className="w-full border px-3 py-2 rounded bg-gray-100 text-sm sm:text-base"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">Donor Email</label>
-            <input
-              type="email"
-              value="john@example.com"
-              readOnly
-              className="w-full border px-3 py-2 rounded bg-gray-100 text-sm sm:text-base"
-            />
-          </div>
-
-          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
-            <button
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 flex items-center justify-center gap-2 text-sm sm:text-base"
-            >
-              <FaTimesCircle />
-              Cancel
-            </button>
-            <button
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center justify-center gap-2 text-sm sm:text-base"
-            >
-              <FaCheckCircle />
-              Confirm
-            </button>
+            <span className="font-medium">Message:</span> <br />
+            {request.message}
           </div>
         </div>
       </div>
+
+      <button
+        onClick={() => setShowModal(true)}
+        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition"
+      >
+        Donate Now
+      </button>
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
+          <div className="bg-white w-11/12 max-w-md p-6 rounded-xl shadow-xl relative">
+            <h2 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
+              <FaTint /> Confirm Donation
+            </h2>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Donor Name</label>
+                <input
+                  type="text"
+                  value={user.name}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded-lg bg-gray-100"
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Donor Email</label>
+                <input
+                  type="email"
+                  value={user.email}
+                  readOnly
+                  className="w-full px-4 py-2 border rounded-lg bg-gray-100"
+                />
+              </div>
+              <button
+                onClick={handleConfirmDonation}
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg flex items-center justify-center gap-2 font-semibold transition"
+              >
+                <FaCheck /> Confirm Donation
+              </button>
+              <button
+                onClick={() => setShowModal(false)}
+                className="w-full text-center text-sm text-gray-500 hover:underline mt-2"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
+
+const DetailRow = ({ icon, label, value }) => (
+  <div className="flex items-center gap-2">
+    <span className="text-red-500">{icon}</span>
+    <span className="font-medium">{label}:</span> {value}
+  </div>
+);
 
 export default DonationRequestDetails;

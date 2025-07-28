@@ -19,6 +19,7 @@ import PrivateRoute from "./PrivateRoute";
 import DonorSearch from "../pages/DonorSearch/DonorSearch";
 import AddBloge from "../pages/Bloge/AddBloge";
 import DonationRequestDetails from "../pages/Blood-requests/DonationRequestDetails";
+import CreateDonation from "../pages/Blood-requests/CreateDonation";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -39,14 +40,20 @@ const mainRoutes = createBrowserRouter([
         element: <Reed_More />
       },
       {
+        path: "/create_Donation_Requests",
+        element: <CreateDonation></CreateDonation>
+
+      },
+      {
         path: "/donation_Requests",
         element: <DonationRequests></DonationRequests>
 
       },
       {
-        path: "/donation_details",
+        path: "/donation-requests/:id",
         element: <PrivateRoute><DonationRequestDetails /></PrivateRoute>
-      },
+      }
+      ,
       {
         path: "/donation_Requests",
         element: <DonationRequests></DonationRequests>
