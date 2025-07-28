@@ -35,6 +35,7 @@ export default function AddBooks() {
       console.log("🚀 ~ axios.post ~ res:", res.data);
     });
   };
+  
   return (
     <div>
       <h1>AddBooks</h1>

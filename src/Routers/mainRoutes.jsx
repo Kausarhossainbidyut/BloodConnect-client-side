@@ -35,9 +35,8 @@ const mainRoutes = createBrowserRouter([
         element: <Blog></Blog>
       },
       {
-        path: "/reed_more",
-        element: <Reed_More></Reed_More>
-
+        path: "/reed_more/:id",
+        element: <Reed_More />
       },
       {
         path: "/donation_Requests",
@@ -46,7 +45,7 @@ const mainRoutes = createBrowserRouter([
       },
       {
         path: "/donation_details",
-        element: <PrivateRoute><DonationRequestDetails/></PrivateRoute>
+        element: <PrivateRoute><DonationRequestDetails /></PrivateRoute>
       },
       {
         path: "/donation_Requests",
@@ -76,13 +75,13 @@ const mainRoutes = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element:  <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
         children: [
           {
             index: true,
             element: <Dashboard />,
           },
-          
+
           {
             path: "add-book",
             element: <AddBooks />,
@@ -110,7 +109,7 @@ const mainRoutes = createBrowserRouter([
         element: <Register></Register>,
       },
       {
-        
+
       },
     ],
   },
