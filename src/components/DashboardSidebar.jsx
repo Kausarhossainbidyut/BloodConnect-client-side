@@ -113,11 +113,7 @@ export default function DashboardSidebar() {
         // icon={<BookOpen size={20} />}
         label="CreateDonation"
       />
-      <NavItem
-        to="/dashboard/DonationRequests"
-        // icon={<BookOpen size={20} />}
-        label="DonationRequests"
-      />
+      
       <NavItem
         to="/dashboard/profile"
         // icon={<User size={20} />}

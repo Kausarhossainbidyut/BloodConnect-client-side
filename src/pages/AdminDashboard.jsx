@@ -1,97 +1,91 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+import { FaHandHoldingUsd, FaTint, FaUser } from "react-icons/fa";
 
-const AdminDashboard = () => {
-  const [stats, setStats] = useState({
-    totalUsers: 0,
-    totalBooks: 0,
-    totalRequest: 0,
-  });
-
-  const axiosSecure = useAxiosSecure();
-
-  const [latestRequests, setLatestRequests] = useState([]);
+export default function AdminDashboard() {
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalFunds, setTotalFunds] = useState(0);
+  const [totalBloodRequests, setTotalBloodRequests] = useState(0);
 
   useEffect(() => {
-    // Replace with your secure APIs
-    axiosSecure("/admin-dashboard-stats").then(({data}) => setStats(data));
+    axios.get("http://localhost:5000/api/users").then((res) => {
+      const donors = res.data.filter((user) => user.role === "donor");
+      setTotalUsers(donors.length);
+    });
 
-    // fetch("/api/latest-requests?limit=5")
-    //   .then((res) => res.json())
-    //   .then((data) => setLatestRequests(data));
+    axios.get("http://localhost:5000/api/funds").then((res) => {
+      const total = res.data.reduce((sum, fund) => sum + Number(fund.amount), 0);
+      setTotalFunds(total);
+    });
+
+    axios.get("http://localhost:5000/api/donation-requests").then((res) => {
+      setTotalBloodRequests(res.data.length);
+    });
   }, []);
 
   return (
-    <div className="p-6 space-y-6">
-      <h2 className="text-3xl font-bold text-blue-600">👋 Welcome, Admin</h2>
+    <main className="min-h-screen bg-gray-50 p-6">
+      {/* Container */}
+      <div className="max-w-7xl mx-auto space-y-10">
+        {/* Header Section */}
+        <section className="bg-gradient-to-r from-red-600 to-red-800 text-white p-10 rounded-3xl shadow-lg flex flex-col md:flex-row md:items-center md:justify-between">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              Welcome to Admin Dashboard
+            </h1>
+            <p className="mt-4 text-lg opacity-90 max-w-lg">
+              Manage everything from one place with ease and efficiency.
+            </p>
+          </div>
+          <div className="mt-8 md:mt-0">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3771/3771222.png"
+              alt="Admin Illustration"
+              className="w-32 h-32 md:w-40 md:h-40 object-contain"
+            />
+          </div>
+        </section>
 
-      {/* Stats Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <StatCard title="Total Users" value={stats.totalUsers} />
-        <StatCard title="Total Books" value={stats.totalBooks} />
-        <StatCard
-          title="Total Book Requested"
-          value={`${stats.totalRequest}`}
-        />
+        {/* Statistics Grid */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <StatCard
+            icon={<FaUser size={36} className="text-white" />}
+            count={totalUsers}
+            label="Total Donors"
+            bgColor="bg-blue-500"
+          />
+          <StatCard
+            icon={<FaHandHoldingUsd size={36} className="text-white" />}
+            count={`৳ ${totalFunds.toLocaleString()}`}
+            label="Total Funds"
+            bgColor="bg-green-500"
+          />
+          <StatCard
+            icon={<FaTint size={36} className="text-white" />}
+            count={totalBloodRequests}
+            label="Blood Requests"
+            bgColor="bg-red-500"
+          />
+        </section>
       </div>
+    </main>
+  );
+}
 
-      {/* Latest Book Requests Table */}
-      <div className="bg-white shadow-md rounded-xl p-5">
-        <h3 className="text-xl font-semibold mb-4">📦 Latest Book Requests</h3>
-        <div className="overflow-x-auto">
-          {/* <table className="min-w-full text-sm text-left border">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="p-2">#</th>
-                <th className="p-2">Requester</th>
-                <th className="p-2">Book</th>
-                <th className="p-2">Status</th>
-                <th className="p-2">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {latestRequests.length > 0 ? (
-                latestRequests.map((req, i) => (
-                  <tr key={req._id} className="border-t hover:bg-gray-50">
-                    <td className="p-2">{i + 1}</td>
-                    <td className="p-2">{req.requesterName}</td>
-                    <td className="p-2">{req.bookTitle}</td>
-                    <td className="p-2 capitalize">{req.status}</td>
-                    <td className="p-2">
-                      <button
-                        className="text-blue-600 underline"
-                        onClick={() =>
-                          (window.location.href = `/dashboard/request/${req._id}`)
-                        }
-                      >
-                        View
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={5} className="text-center p-4 text-gray-400">
-                    No recent requests
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table> */}
-        </div>
+function StatCard({ icon, count, label, bgColor }) {
+  return (
+    <div
+      className={`${bgColor} text-white rounded-3xl shadow-xl p-8 flex items-center gap-6 transition-transform transform hover:scale-105 hover:shadow-2xl cursor-pointer select-none`}
+      role="region"
+      aria-label={`${label} statistic`}
+    >
+      <div className="p-5 bg-white bg-opacity-20 rounded-full flex items-center justify-center shadow-md">
+        {icon}
+      </div>
+      <div>
+        <h3 className="text-4xl font-extrabold tracking-tight">{count}</h3>
+        <p className="text-lg opacity-90">{label}</p>
       </div>
     </div>
   );
-};
-
-const StatCard = ({ icon, title, value }) => (
-  <div className="bg-white shadow-md rounded-xl p-6 flex items-center gap-4">
-    <div className="bg-blue-100 text-blue-600 p-3 rounded-full">icon</div>
-    <div>
-      <p className="text-lg font-semibold">{value}</p>
-      <p className="text-sm text-gray-500">{title}</p>
-    </div>
-  </div>
-);
-
-export default AdminDashboard;
+}

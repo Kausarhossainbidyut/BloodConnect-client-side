@@ -22,6 +22,8 @@ import DonationRequestDetails from "../pages/Blood-requests/DonationRequestDetai
 import CreateDonation from "../pages/Blood-requests/CreateDonation";
 import MyDonationRequests from "../pages/MyDonationRequests";
 import ProfilePage from "../components/ProfilePage";
+import AllBloodDonationRequest from "../pages/AllBloodDonationRequest";
+import ContentManagementPage from "../pages/ContentManagementPage";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -59,10 +61,7 @@ const mainRoutes = createBrowserRouter([
         path: "/donor_Search",
         element: <DonorSearch></DonorSearch>
       },
-      {
-        path: "/add_blog",
-        element: <AddBloge></AddBloge>
-      },
+
       {
         path: "/available-books",
         element: <PrivateRoute><AvailableBooks /></PrivateRoute>,
@@ -93,6 +92,18 @@ const mainRoutes = createBrowserRouter([
             element: <DonationRequests></DonationRequests>,
           },
           {
+            path: "/dashboard/ContentManagementPage",
+            element: <ContentManagementPage></ContentManagementPage>,
+          },
+          {
+            path: "/dashboard/content-management/add-blog",
+            element: <AddBloge></AddBloge>
+          },
+          {
+            path: "/dashboard/content-management",
+            element: <ContentManagementPage></ContentManagementPage>
+          },
+          {
             path: "/dashboard/create-donation-request",
             element: <CreateDonation></CreateDonation>
 
@@ -105,12 +116,12 @@ const mainRoutes = createBrowserRouter([
               </PrivateRoute>
             ),
           },
-          // {
-          //   path: "add-book",
-          //   element: <AddBooks />,
-          // },
           {
-            path: "all-users",
+            path: "/dashboard/AllDonationRequests",
+            element: <AllBloodDonationRequest></AllBloodDonationRequest>,
+          },
+          {
+            path: "/dashboard/AllUsers",
             element: <AllUsers />,
           },
           {

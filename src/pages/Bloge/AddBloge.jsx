@@ -1,129 +1,180 @@
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import JoditEditor from "jodit-react";
 import Swal from "sweetalert2";
-import {
-  FaPen,
-  FaUser,
-  FaImage,
-  FaAlignLeft,
-  FaPaperPlane,
-  FaQuoteLeft,
-} from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export default function AddBloge() {
-  const { register, handleSubmit, reset } = useForm();
+export default function AddBlog() {
+  const { register, handleSubmit, reset, setValue } = useForm();
+  const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
+  const editor = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await axios.post("http://localhost:5000/api/blogs", data);
-      console.log(res.data);
+  const imageBB_api = import.meta.env.VITE_IMAGEBB_API_KEY;
+  const imageUploadUrl = `https://api.imgbb.com/1/upload?key=${imageBB_api}`;
 
-      Swal.fire({
-        icon: "success",
-        title: "Blog Submitted!",
-        text: "Your blog has been posted successfully.",
-        confirmButtonColor: "#d33",
+  // Get blog ID from URL query param ?id=
+  const searchParams = new URLSearchParams(location.search);
+  const blogId = searchParams.get("id");
+
+  // If editing: fetch blog data & fill form
+  useEffect(() => {
+    if (blogId) {
+      axios.get(`http://localhost:5000/api/blogs/${blogId}`).then((res) => {
+        const blog = res.data;
+        setValue("title", blog.title);
+        setValue("author", blog.author);
+        setValue("summary", blog.summary);
+        setContent(blog.content);
+        setValue("existingImage", blog.image); // keep existing image url
       });
+    } else {
+      reset();
+      setContent("");
+    }
+  }, [blogId, setValue, reset]);
+
+  // On form submit (create or update)
+  const onSubmit = async (data) => {
+    setLoading(true);
+
+    try {
+      let imageUrl = data.existingImage || "";
+
+      // If user uploaded new image
+      if (data.image && data.image.length > 0) {
+        const formData = new FormData();
+        formData.append("image", data.image[0]);
+        const imgRes = await axios.post(imageUploadUrl, formData);
+        imageUrl = imgRes.data.data.display_url;
+      }
+
+      const blogData = {
+        title: data.title,
+        author: data.author,
+        summary: data.summary,
+        content: content,
+        image: imageUrl,
+        status: "draft", // Always draft on create/edit here
+        createdAt: new Date(),
+      };
+
+      if (blogId) {
+        // Update blog
+        await axios.put(`http://localhost:5000/api/blogs/${blogId}`, blogData);
+        Swal.fire("Success", "Blog updated successfully!", "success");
+      } else {
+        // Create new blog
+        await axios.post("http://localhost:5000/api/blogs", blogData);
+        Swal.fire("Success", "Blog created successfully!", "success");
+      }
 
       reset();
+      setContent("");
+      navigate("/dashboard/content-management");
     } catch (error) {
       console.error(error);
-
-      Swal.fire({
-        icon: "error",
-        title: "Submission Failed",
-        text: "Something went wrong. Please try again.",
-        confirmButtonColor: "#d33",
-      });
+      Swal.fire("Error", "Failed to save blog", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-red-50 via-white to-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white shadow-xl rounded-3xl p-6 sm:p-10 md:p-12">
-        {/* Heading */}
         <h2 className="text-3xl sm:text-4xl font-bold text-center text-red-600 mb-2 flex justify-center items-center gap-2">
-          <FaPen className="text-red-500 animate-pulse" />
-          Add New Blog
+          ✍️ {blogId ? "Edit Blog" : "Add New Blog"}
         </h2>
         <p className="text-center text-gray-500 mb-8 text-xs sm:text-sm tracking-wide uppercase">
           Share your knowledge with the community
         </p>
 
-        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Title */}
           <div>
             <label className="flex items-center text-gray-700 font-semibold mb-1 gap-2 text-sm sm:text-base">
-              <FaPen className="text-red-400" /> Blog Title
+              Blog Title
             </label>
             <input
-              {...register("title")}
+              {...register("title", { required: true })}
               placeholder="Ex: The Truth About Blood Donation"
-              className="w-full bg-gray-50 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 text-sm sm:text-base transition"
-              required
+              className="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-red-300"
             />
           </div>
 
           {/* Author */}
           <div>
             <label className="flex items-center text-gray-700 font-semibold mb-1 gap-2 text-sm sm:text-base">
-              <FaUser className="text-red-400" /> Author Name
+              Author Name
             </label>
             <input
-              {...register("author")}
+              {...register("author", { required: true })}
               placeholder="Ex: Dr. Sarah Khan"
-              className="w-full bg-gray-50 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 text-sm sm:text-base transition"
-              required
+              className="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-red-300"
             />
           </div>
 
-          {/* Image */}
+          {/* Existing Image URL (hidden) */}
+          <input type="hidden" {...register("existingImage")} />
+
+          {/* Image Upload */}
           <div>
             <label className="flex items-center text-gray-700 font-semibold mb-1 gap-2 text-sm sm:text-base">
-              <FaImage className="text-red-400" /> Image URL
+              Upload Image
             </label>
             <input
               {...register("image")}
-              placeholder="Ex: https://i.ibb.co/example.jpg"
-              className="w-full bg-gray-50 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 text-sm sm:text-base transition"
-              required
+              type="file"
+              accept="image/*"
+              className="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-red-300"
             />
+            {/* Show existing image preview */}
+            {content && (
+              <img
+                src={content ? content : ""}
+                alt="Preview"
+                className="mt-2 w-32 h-20 object-cover rounded"
+              />
+            )}
           </div>
 
           {/* Summary */}
           <div>
             <label className="flex items-center text-gray-700 font-semibold mb-1 gap-2 text-sm sm:text-base">
-              <FaQuoteLeft className="text-red-400" /> Blog Summary
+              Blog Summary
             </label>
             <textarea
-              {...register("summary")}
+              {...register("summary", { required: true })}
               placeholder="Write a short summary (2-3 lines)..."
-              className="w-full bg-gray-50 px-4 sm:px-5 py-2.5 sm:py-3 h-24 sm:h-28 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 resize-none text-sm sm:text-base transition"
-              required
+              className="w-full bg-gray-50 px-4 py-3 h-24 rounded-xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-red-300 resize-none"
             />
           </div>
 
-          {/* Content */}
+          {/* Blog Content */}
           <div>
             <label className="flex items-center text-gray-700 font-semibold mb-1 gap-2 text-sm sm:text-base">
-              <FaAlignLeft className="text-red-400" /> Blog Content
+              Blog Content
             </label>
-            <textarea
-              {...register("content")}
-              placeholder="Write your blog content here..."
-              className="w-full bg-gray-50 px-4 sm:px-5 py-2.5 sm:py-3 h-36 sm:h-40 rounded-xl border border-gray-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-red-300 resize-none text-sm sm:text-base transition"
-              required
+            <JoditEditor
+              ref={editor}
+              value={content}
+              onChange={(newContent) => setContent(newContent)}
             />
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all text-sm sm:text-base"
+            disabled={loading}
+            className={`w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all ${
+              loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
           >
-            <FaPaperPlane />
-            Submit Blog
+            {loading ? "Saving..." : blogId ? "Update Blog" : "Create Blog"}
           </button>
         </form>
       </div>
