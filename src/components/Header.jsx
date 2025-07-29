@@ -35,7 +35,7 @@ const Header = () => {
 
       <li><NavLink to="/dashboard/profile" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
 
-      <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>/donation_Requests</NavLink></li>
+      <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
 
       
 

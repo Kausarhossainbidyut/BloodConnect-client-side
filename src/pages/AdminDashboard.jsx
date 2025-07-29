@@ -49,19 +49,19 @@ export default function AdminDashboard() {
         {/* Statistics Grid */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           <StatCard
-            icon={<FaUser size={36} className="text-white" />}
+            icon={<FaUser size={36} className="text-blue-600" />}
             count={totalUsers}
             label="Total Donors"
             bgColor="bg-blue-500"
           />
           <StatCard
-            icon={<FaHandHoldingUsd size={36} className="text-white" />}
+            icon={<FaHandHoldingUsd size={36} className="text-green-600" />}
             count={`৳ ${totalFunds.toLocaleString()}`}
             label="Total Funds"
             bgColor="bg-green-500"
           />
           <StatCard
-            icon={<FaTint size={36} className="text-white" />}
+            icon={<FaTint size={36} className="text-red-600" />}
             count={totalBloodRequests}
             label="Blood Requests"
             bgColor="bg-red-500"
