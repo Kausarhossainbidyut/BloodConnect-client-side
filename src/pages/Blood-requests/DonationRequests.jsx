@@ -6,12 +6,16 @@ import axios from "axios";
 const DonationRequests = () => {
   const [requests, setRequests] = useState([]);
 
+
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/donation-requests") // তোমার API URL দিন
-      .then((res) => setRequests(res.data))
-      .catch((err) => {
-        console.error("Error fetching donation requests:", err);
+    axios.get("http://localhost:5000/api/pending-donation-requests")
+      .then(res => {
+        // response handle করুন
+        setRequests(res.data);
+      })
+      .catch(err => {
+        // error handle করুন
+        console.error(err);
       });
   }, []);
 

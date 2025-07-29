@@ -60,7 +60,7 @@ const CreateDonation = () => {
       reset();
       setSelectedDistrictId("");
       setFilteredUpazilas([]);
-      navigate("/donation-requests");
+      navigate("/donation_Requests");
     } catch (error) {
       Swal.fire("Error!", "Failed to create donation request.", "error");
     }
