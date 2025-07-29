@@ -11,9 +11,9 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import axios from "axios";
-import { AuthContext } from "../../providers/AuthProvider";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const DonationRequestDetails = () => {
   const { user, loading } = useContext(AuthContext);
@@ -70,19 +70,14 @@ const DonationRequestDetails = () => {
   if (!request) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 bg-white shadow-md rounded-3xl mt-10
-                    sm:px-6 sm:py-16
-                    md:px-8 md:py-20">
-      <h1 className="text-3xl font-bold text-red-600 mb-6 flex items-center gap-2
-                     sm:text-4xl
-                     md:text-5xl">
+    <div className="max-w-4xl mx-auto px-4 py-12 bg-white shadow-md rounded-3xl mt-10 sm:px-6 sm:py-16 md:px-8 md:py-20">
+      <h1 className="text-3xl font-bold text-red-600 mb-6 flex items-center gap-2 sm:text-4xl md:text-5xl">
         <FaTint /> Blood Donation Request Details
       </h1>
 
-      <div className="grid gap-4 text-gray-700
-                      sm:grid-cols-1
-                      md:grid-cols-2
-                      lg:grid-cols-2">
+      <div
+        className="grid gap-4 text-gray-700 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
+      >
         <DetailRow icon={<FaUser />} label="Requester" value={request.requesterName} />
         <DetailRow icon={<FaEnvelope />} label="Email" value={request.requesterEmail} />
         <DetailRow icon={<FaUser />} label="Recipient Name" value={request.recipientName || request.name} />
@@ -107,9 +102,7 @@ const DonationRequestDetails = () => {
 
       <button
         onClick={() => setShowModal(true)}
-        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition
-                   w-full
-                   sm:w-auto"
+        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition w-full sm:w-auto"
       >
         Donate Now
       </button>

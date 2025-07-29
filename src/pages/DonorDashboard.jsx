@@ -131,7 +131,7 @@ export default function DashboardHome() {
 
                         <button
                           className="btn btn-xs btn-outline"
-                          onClick={() => navigate(`/donation-request/${req._id}`)}
+                          onClick={() => navigate(`/donation-requests/${req._id}`)}
                         >
                           View
                         </button>

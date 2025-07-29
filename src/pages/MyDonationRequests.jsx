@@ -180,7 +180,7 @@ export default function MyDonationRequests() {
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
                   <Link
-                    to={`/editDonationRequest/${req._id}`}
+                    to={`/donation-requests/${req._id}`}
                     className="text-blue-600 hover:underline font-medium"
                   >
                     View
