@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   FaTint,
   FaMapMarkerAlt,
@@ -12,10 +12,11 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
-import { useLoaderData } from "react-router";
+import { useParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const DonationRequestDetails = () => {
- const { user, loading } = useContext(AuthContext);
+  const { user, loading } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -40,23 +41,31 @@ const DonationRequestDetails = () => {
     fetchData();
   }, [id]);
 
-  const handleDonate = async () => {
+  const handleConfirmDonation = async () => {
     try {
-      const res = await axios.patch(`http://localhost:5000/api/donation-requests/${id}`, {
-        donationStatus: "inprogress",
-        donorName: user.displayName,
+      await axios.patch(`http://localhost:5000/api/donation-requests/${id}`, {
+        status: "inprogress",
+        donorName: user.displayName || user.name || "Anonymous",
         donorEmail: user.email,
       });
-      toast.success("Donation confirmed!");
+
+      Swal.fire({
+        icon: "success",
+        title: "Donation confirmed!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       setShowModal(false);
       setRequest({ ...request, donationStatus: "inprogress" });
     } catch (err) {
-      toast.error("Failed to confirm donation");
+      Swal.fire({
+        icon: "error",
+        title: "Failed to confirm donation",
+        text: err.message || "Please try again later",
+      });
     }
   };
-
-  if (!request) return <div>Loading...</div>;
-
 
   if (!request) return <p className="text-center mt-10">Loading...</p>;
 
@@ -69,22 +78,22 @@ const DonationRequestDetails = () => {
       <div className="grid gap-4 text-gray-700">
         <DetailRow icon={<FaUser />} label="Requester" value={request.requesterName} />
         <DetailRow icon={<FaEnvelope />} label="Email" value={request.requesterEmail} />
-        <DetailRow icon={<FaUser />} label="Recipient Name" value={request.recipientName} />
+        <DetailRow icon={<FaUser />} label="Recipient Name" value={request.recipientName || request.name} />
         <DetailRow
           icon={<FaMapMarkerAlt />}
           label="Location"
           value={`${request.district}, ${request.upazila}`}
         />
-        <DetailRow icon={<FaHospital />} label="Hospital" value={request.hospital} />
-        <DetailRow icon={<FaMapMarkerAlt />} label="Address" value={request.address} />
+        <DetailRow icon={<FaHospital />} label="Hospital" value={request.hospital || request.hospitalName} />
+        <DetailRow icon={<FaMapMarkerAlt />} label="Address" value={request.address || request.fullAddress} />
         <DetailRow icon="🩸" label="Blood Group" value={request.bloodGroup} />
-        <DetailRow icon={<FaCalendarAlt />} label="Date" value={request.date} />
-        <DetailRow icon={<FaClock />} label="Time" value={request.time} />
+        <DetailRow icon={<FaCalendarAlt />} label="Date" value={request.date || request.donationDate} />
+        <DetailRow icon={<FaClock />} label="Time" value={request.time || request.donationTime} />
         <div className="flex items-start gap-2">
           <FaCommentDots className="text-red-500 mt-1" />
           <div>
             <span className="font-medium">Message:</span> <br />
-            {request.message}
+            {request.message || request.requestMessage}
           </div>
         </div>
       </div>
@@ -107,7 +116,7 @@ const DonationRequestDetails = () => {
                 <label className="text-sm font-medium">Donor Name</label>
                 <input
                   type="text"
-                  value={user.name}
+                  value={user.displayName || user.name || ""}
                   readOnly
                   className="w-full px-4 py-2 border rounded-lg bg-gray-100"
                 />
