@@ -70,12 +70,19 @@ const DonationRequestDetails = () => {
   if (!request) return <p className="text-center mt-10">Loading...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 bg-white shadow-md rounded-3xl mt-10">
-      <h1 className="text-3xl font-bold text-red-600 mb-6 flex items-center gap-2">
+    <div className="max-w-4xl mx-auto px-4 py-12 bg-white shadow-md rounded-3xl mt-10
+                    sm:px-6 sm:py-16
+                    md:px-8 md:py-20">
+      <h1 className="text-3xl font-bold text-red-600 mb-6 flex items-center gap-2
+                     sm:text-4xl
+                     md:text-5xl">
         <FaTint /> Blood Donation Request Details
       </h1>
 
-      <div className="grid gap-4 text-gray-700">
+      <div className="grid gap-4 text-gray-700
+                      sm:grid-cols-1
+                      md:grid-cols-2
+                      lg:grid-cols-2">
         <DetailRow icon={<FaUser />} label="Requester" value={request.requesterName} />
         <DetailRow icon={<FaEnvelope />} label="Email" value={request.requesterEmail} />
         <DetailRow icon={<FaUser />} label="Recipient Name" value={request.recipientName || request.name} />
@@ -89,7 +96,7 @@ const DonationRequestDetails = () => {
         <DetailRow icon="🩸" label="Blood Group" value={request.bloodGroup} />
         <DetailRow icon={<FaCalendarAlt />} label="Date" value={request.date || request.donationDate} />
         <DetailRow icon={<FaClock />} label="Time" value={request.time || request.donationTime} />
-        <div className="flex items-start gap-2">
+        <div className="flex items-start gap-2 col-span-full">
           <FaCommentDots className="text-red-500 mt-1" />
           <div>
             <span className="font-medium">Message:</span> <br />
@@ -100,14 +107,16 @@ const DonationRequestDetails = () => {
 
       <button
         onClick={() => setShowModal(true)}
-        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition"
+        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition
+                   w-full
+                   sm:w-auto"
       >
         Donate Now
       </button>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
-          <div className="bg-white w-11/12 max-w-md p-6 rounded-xl shadow-xl relative">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center p-4">
+          <div className="bg-white w-full max-w-md p-6 rounded-xl shadow-xl relative">
             <h2 className="text-xl font-bold text-red-600 mb-4 flex items-center gap-2">
               <FaTint /> Confirm Donation
             </h2>
