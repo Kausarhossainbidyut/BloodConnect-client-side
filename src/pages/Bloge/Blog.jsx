@@ -99,7 +99,7 @@ const Blog = () => {
                     {blog.summary || (blog.content && blog.content.substring(0, 120) + "...")}
                   </p>
                   <Link
-                    to={`/read_more/${blog._id}`}
+                    to={`/reed_more/${blog._id}`}
                     className="inline-block text-sm font-semibold text-red-600 hover:underline"
                   >
                     Read More →
