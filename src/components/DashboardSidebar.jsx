@@ -71,7 +71,7 @@ export default function DashboardSidebar() {
           label="Volunteer"
         />
         <NavItem
-          to="/dashboard/AllDonationRequests"
+          to="/dashboard/my-donation-requests"
           // icon={<BookOpen size={20} />}
           label="All Donation Requests"
         />
