@@ -1,10 +1,13 @@
 import { NavLink } from "react-router";
 import useRole from "../hooks/useRole";
 
+
 export default function DashboardSidebar() {
+  
   const NavItem = ({ to, icon, label }) => (
     <NavLink
       to={to}
+  
       className={({ isActive }) =>
         `flex items-center gap-3 px-4 py-2 rounded-lg font-medium ${
           isActive
@@ -28,23 +31,30 @@ export default function DashboardSidebar() {
         <NavItem
           to="/dashboard"
           // icon={<Home size={20} />}
-          label="Admin Dashboard Home"
+          label="Admin"
         />
         <NavItem
-          to="/dashboard/all-users"
+          to="/dashboard/AllUsers"
           // icon={<Plus size={20} />}
           label="All Users"
         />
-        <NavItem
-          to="/dashboard/my-books"
+        {/* <NavItem
+          to="/dashboard/addBlog"
           // icon={<List size={20} />}
-          label="My Books"
+          label="Add Blog"
+        /> */}
+        <NavItem
+          to="/dashboard/AllDonationRequests"
+          // icon={<BookOpen size={20} />}
+          label="All Donation Requests"
         />
         <NavItem
-          to="/dashboard/my-requests"
+          to="/dashboard/ContentManagementPage"
           // icon={<BookOpen size={20} />}
-          label="My Requests"
+          
+          label="ContentManagementPage"
         />
+
         <NavItem
           to="/dashboard/profile"
           // icon={<User size={20} />}
@@ -52,40 +62,61 @@ export default function DashboardSidebar() {
         />
       </nav>
     );
-  if (role === "moderator")
+  if (role === "volunteer")
     return (
       <nav className="flex flex-col gap-4">
         <NavItem
           to="/dashboard"
           // icon={<Home size={20} />}
-          label="Moderator Dashboard"
+          label="Volunteer"
+        />
+        <NavItem
+          to="/dashboard/AllDonationRequests"
+          // icon={<BookOpen size={20} />}
+          label="All Donation Requests"
+        />
+         <NavItem
+          to="/dashboard/ContentManagementPage"
+          // icon={<BookOpen size={20} />}
+          
+          label="ContentManagementPage"
+        />
+         <NavItem
+          to="/dashboard/profile"
+          // icon={<User size={20} />}
+          label="Profile"
         />
       </nav>
     );
 
-  // user sidebar
+  // donor sidebar
   return (
     <nav className="flex flex-col gap-4">
       <NavItem
         to="/dashboard"
         // icon={<Home size={20} />}
-        label="User Dashboard"
+        label="Donor"
       />
 
-      <NavItem
-        to="/dashboard/add-book"
+      {/* <NavItem
+        to="/dashboard/addblog"
         // icon={<Plus size={20} />}
-        label="Add Book"
-      />
+        label="Add Blog"
+      /> */}
       <NavItem
-        to="/dashboard/my-books"
+        to="/dashboard/MyDonationRequests"
         // icon={<List size={20} />}
-        label="My Books"
+        label="MyDonationRequests"
       />
       <NavItem
-        to="/dashboard/my-requests"
+        to="/dashboard/create-donation-request"
         // icon={<BookOpen size={20} />}
-        label="My Requests"
+        label="CreateDonation"
+      />
+      <NavItem
+        to="/dashboard/DonationRequests"
+        // icon={<BookOpen size={20} />}
+        label="DonationRequests"
       />
       <NavItem
         to="/dashboard/profile"

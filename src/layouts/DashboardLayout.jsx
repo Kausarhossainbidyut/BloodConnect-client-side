@@ -11,7 +11,7 @@ const DashboardLayout = () => {
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-md p-5 hidden md:block">
         <div className="text-2xl font-bold mb-10 text-center text-blue-600">
-          BookSwap Hub
+          Dashboard
         </div>
         <DashboardSidebar />
       </aside>

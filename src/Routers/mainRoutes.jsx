@@ -20,6 +20,8 @@ import DonorSearch from "../pages/DonorSearch/DonorSearch";
 import AddBloge from "../pages/Bloge/AddBloge";
 import DonationRequestDetails from "../pages/Blood-requests/DonationRequestDetails";
 import CreateDonation from "../pages/Blood-requests/CreateDonation";
+import MyDonationRequests from "../pages/MyDonationRequests";
+import ProfilePage from "../components/ProfilePage";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -38,11 +40,6 @@ const mainRoutes = createBrowserRouter([
       {
         path: "/reed_more/:id",
         element: <Reed_More />
-      },
-      {
-        path: "/create_Donation_Requests",
-        element: <CreateDonation></CreateDonation>
-
       },
       {
         path: "/donation_Requests",
@@ -81,18 +78,37 @@ const mainRoutes = createBrowserRouter([
         },
       },
       {
-        path: "/dashboard/profile",
+        path: "/dashboard",
         element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
         children: [
           {
             index: true,
-            element: <Dashboard />,
+            element: <PrivateRoute><Dashboard /></PrivateRoute>,
           },
-
           {
-            path: "add-book",
-            element: <AddBooks />,
+            path: "/dashboard/MyDonationRequests",
+            element: <MyDonationRequests></MyDonationRequests>,
+          }, {
+            path: "/dashboard/DonationRequests",
+            element: <DonationRequests></DonationRequests>,
           },
+          {
+            path: "/dashboard/create-donation-request",
+            element: <CreateDonation></CreateDonation>
+
+          },
+          {
+            path: "/dashboard/profile",
+            element: (
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            ),
+          },
+          // {
+          //   path: "add-book",
+          //   element: <AddBooks />,
+          // },
           {
             path: "all-users",
             element: <AllUsers />,
