@@ -47,6 +47,23 @@ export default function AllBloodDonationRequests() {
     setCurrentPage(1);
   };
 
+  const handleActionUpdate = async (id, newStatus) => {
+    try {
+      await axios.patch(
+        `http://localhost:5000/api/donation-requests/${id}`,
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchRequests();
+    } catch (error) {
+      console.error("Failed to update status:", error);
+    }
+  };
+
   return (
     <div className="p-6 max-w-full overflow-x-auto bg-white rounded-lg shadow-md">
       <h2 className="text-3xl font-semibold mb-6 text-gray-800 text-center">
@@ -113,10 +130,10 @@ export default function AllBloodDonationRequests() {
                 className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
               >
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
-                  {req.recipientName}
+                  {req.name}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
-                  {req.recipientDistrict}, {req.recipientUpazila}
+                  {req.fullAddress}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 font-semibold text-red-600 whitespace-nowrap">
                   {req.bloodGroup}
@@ -128,23 +145,37 @@ export default function AllBloodDonationRequests() {
                   {req.donationTime}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 capitalize font-medium whitespace-nowrap">
-                  {req.donationStatus}
+                  {req.status}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 max-w-xs text-sm text-gray-700 overflow-y-auto max-h-24">
-                  {req.donors?.length > 0 ? (
-                    <ul className="list-disc pl-5">
-                      {req.donors.map((donor, i) => (
-                        <li key={i} className="select-text">
-                          {donor.name} ({donor.email})
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span className="text-gray-500 italic select-none">No donors</span>
-                  )}
+                  {req.donorName}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 text-center whitespace-nowrap">
-                  {/* Actions - optional buttons */}
+                  <div className="dropdown dropdown-end dropdown-top">
+                    <div tabIndex={0} role="button" className="btn btn-sm btn-ghost m-1">
+                      ⋮
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <select
+                          defaultValue=""
+                          className="select select-warning w-full"
+                          onChange={(e) => handleActionUpdate(req._id, e.target.value)}
+                        >
+                          <option disabled value="">
+                            Change Status
+                          </option>
+                          <option value="pending">Pending</option>
+                          <option value="inprogress">In Progress</option>
+                          <option value="done">Done</option>
+                          <option value="canceled">Canceled</option>
+                        </select>
+                      </li>
+                    </ul>
+                  </div>
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
                   <Link
@@ -165,11 +196,10 @@ export default function AllBloodDonationRequests() {
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
           <button
             key={pageNum}
-            className={`px-3 py-1 border rounded-md transition focus:outline-none focus:ring-2 ${
-              currentPage === pageNum
-                ? "bg-blue-600 text-white ring-blue-400"
-                : "bg-white text-gray-700 hover:bg-blue-100 ring-transparent"
-            }`}
+            className={`px-3 py-1 border rounded-md transition focus:outline-none focus:ring-2 ${currentPage === pageNum
+              ? "bg-blue-600 text-white ring-blue-400"
+              : "bg-white text-gray-700 hover:bg-blue-100 ring-transparent"
+              }`}
             onClick={() => setCurrentPage(pageNum)}
             aria-label={`Go to page ${pageNum}`}
           >

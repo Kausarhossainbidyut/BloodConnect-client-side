@@ -52,7 +52,13 @@ export default function DashboardSidebar() {
           to="/dashboard/ContentManagementPage"
           // icon={<BookOpen size={20} />}
           
-          label="ContentManagementPage"
+          label="Content Management Page"
+        />
+        <NavItem
+          to="/dashboard/funding-money"
+          // icon={<BookOpen size={20} />}
+          
+          label="Funding Page"
         />
 
         <NavItem

@@ -19,6 +19,7 @@ const Home = () => {
       <ChooseSection></ChooseSection>
       <CallToAction></CallToAction>
       <ContactUs></ContactUs>
+      {/* http://localhost:5000/ */}
       
     </>
   );

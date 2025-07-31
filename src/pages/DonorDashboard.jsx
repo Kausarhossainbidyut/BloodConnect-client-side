@@ -77,7 +77,7 @@ export default function DashboardHome() {
                 {requests.map((req) => (
                   <tr key={req._id} className="text-sm">
                     <td>{req.recipientName}</td>
-                    <td>{req.recipientDistrict}, {req.recipientUpazila}</td>
+                    <td>{req.fullAddress}</td>
                     <td>{req.donationDate}</td>
                     <td>{req.donationTime}</td>
                     <td>{req.bloodGroup}</td>

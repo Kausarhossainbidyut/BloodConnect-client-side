@@ -8,13 +8,14 @@ import { AuthContext } from "../providers/AuthProvider";
 import Swal from "sweetalert2";
 import axios from "axios";
 import districtsData from "../assets/district.json";
-import upazilasData from "../assets/upazila.json";
+import upazilasDataRaw from "../assets/upazila.json"; // rename to make clear it's raw data
 
+// ✅ ImageBB API Config
 const imageBB_API_KEY = import.meta.env.VITE_IMAGEBB_API_KEY;
 const imageBB_URL = `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`;
 
 const Register = () => {
-  const [loading, setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
   const goTo = useNavigate();
   const { createUser, setUser, updateUser } = useContext(AuthContext);
 
@@ -25,7 +26,8 @@ const Register = () => {
     const districtId = e.target.value;
     setSelectedDistrictId(districtId);
 
-    const relatedUpazilas = upazilasData.filter(
+    // ✅ Clone before filtering
+    const relatedUpazilas = [...upazilasDataRaw].filter(
       (u) => String(u.district_id) === String(districtId)
     );
     setFilteredUpazilas(relatedUpazilas);
@@ -53,7 +55,8 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
+
     const form = e.target;
     const formData = new FormData(form);
 
@@ -67,26 +70,30 @@ const Register = () => {
     const upazila = formData.get("upazila");
 
     if (pass !== confirmPassword) {
+      setLoading(false);
       Swal.fire("Error", "Passwords do not match", "error");
       return;
     }
 
-    if (!isValidPassword(pass)) return;
+    if (!isValidPassword(pass)) {
+      setLoading(false);
+      return;
+    }
 
     try {
-      // ✅ Upload image to imageBB
+      // ✅ Upload image
       const imgForm = new FormData();
       imgForm.append("image", imageFile);
 
       const imgUploadRes = await axios.post(imageBB_URL, imgForm);
-      const avatarUrl = imgUploadRes.data.data.display_url;
+      const avatarUrl = imgUploadRes?.data?.data?.display_url || "";
 
       // ✅ Firebase Registration
       const res = await createUser(email, pass);
       await updateUser({ displayName: name, photoURL: avatarUrl });
       setUser({ ...res.user, displayName: name, photoURL: avatarUrl });
 
-      // ✅ Get District Name from ID
+      // ✅ District name from ID
       const districtName = districtsData.find((d) => String(d.id) === String(district))?.name || "";
 
       // ✅ Save to MongoDB
@@ -102,21 +109,18 @@ const Register = () => {
         status: "active",
       };
 
-     const result = await axios.post("http://localhost:5000/api/users", userInfo);
-      console.log(result);
-      if(result.data.insertedId)
-      {
-        setLoading(false)
+      const result = await axios.post("http://localhost:5000/api/users", userInfo);
+
+      if (result.data.insertedId) {
+        setLoading(false);
+        Swal.fire("Success", "Registered Successfully!", "success").then(() => {
+          goTo(location.state ? location.state : "/");
+        });
       }
-      
-      // ✅ Success Alert
-      Swal.fire("Success", "Registered Successfully!", "success").then(() => {
-        goTo(location.state ? location.state : "/");
-      });
 
     } catch (err) {
+      setLoading(false);
       if (err.code === "auth/email-already-in-use") {
-        setLoading(false)
         Swal.fire({
           title: "Already Registered",
           text: "This email is already registered. Please go to login.",
@@ -128,8 +132,7 @@ const Register = () => {
           }
         });
       } else {
-        setLoading(false)
-        Swal.fire("Registration Failed", err.message, "error");
+        Swal.fire("Registration Failed", err.message || "Unknown error", "error");
       }
     }
   };
@@ -142,121 +145,54 @@ const Register = () => {
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-10 mt-8">
           {/* Form */}
           <div className="w-full sm:border-t-2 md:border-none lg:w-1/2">
-            <form
-              onSubmit={handleSubmit}
-              className="space-y-6 p-6 bg-white bg-opacity-80 rounded-lg shadow-md"
-            >
-              {/* Name */}
+            <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white bg-opacity-80 rounded-lg shadow-md">
               <div className="flex items-center border-b-2 border-gray-400 focus-within:border-orange-500 transition">
                 <BiUser className="text-xl text-gray-600 mr-2" />
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Full Name"
-                  required
-                  className="flex-1 py-2 bg-transparent outline-none text-gray-800"
-                />
+                <input type="text" name="name" placeholder="Full Name" required className="flex-1 py-2 bg-transparent outline-none text-gray-800" />
               </div>
 
-              {/* Image File Upload */}
               <div className="flex items-center border-b-2 border-gray-400 focus-within:border-orange-500 transition">
                 <BiImageAdd className="text-xl text-gray-600 mr-2" />
-                <input
-                  type="file"
-                  name="image"
-                  accept="image/*"
-                  required
-                  className="flex-1 py-2 bg-transparent outline-none text-gray-800"
-                />
+                <input type="file" name="image" accept="image/*" required className="flex-1 py-2 bg-transparent outline-none text-gray-800" />
               </div>
 
-              {/* Email */}
               <div className="flex items-center border-b-2 border-gray-400 focus-within:border-orange-500 transition">
                 <BiEnvelope className="text-xl text-gray-600 mr-2" />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  required
-                  className="flex-1 py-2 bg-transparent outline-none text-gray-800"
-                />
+                <input type="email" name="email" placeholder="Email" required className="flex-1 py-2 bg-transparent outline-none text-gray-800" />
               </div>
 
-              {/* Blood Group */}
-              <select
-                name="bloodGroup"
-                required
-                className="select select-bordered w-full"
-                defaultValue=""
-              >
+              <select name="bloodGroup" required className="select select-bordered w-full" defaultValue="">
                 <option disabled value="">Choose Blood Group</option>
                 {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map((group) => (
                   <option key={group}>{group}</option>
                 ))}
               </select>
 
-              {/* District */}
-              <select
-                name="district"
-                required
-                onChange={handleDistrictChange}
-                className="select select-bordered w-full"
-                defaultValue=""
-              >
+              <select name="district" required onChange={handleDistrictChange} className="select select-bordered w-full" defaultValue="">
                 <option disabled value="">Select District</option>
                 {districtsData.map((d) => (
-                  <option key={d.id} value={d.id}>
-                    {d.name}
-                  </option>
+                  <option key={d.id} value={d.id}>{d.name}</option>
                 ))}
               </select>
 
-              {/* Upazila */}
-              <select
-                name="upazila"
-                required
-                className="select select-bordered w-full"
-                defaultValue=""
-              >
+              <select name="upazila" required className="select select-bordered w-full" defaultValue="">
                 <option disabled value="">Select Upazila</option>
                 {filteredUpazilas.map((u) => (
-                  <option key={u.id} value={u.name}>
-                    {u.name}
-                  </option>
+                  <option key={u.id} value={u.name}>{u.name}</option>
                 ))}
               </select>
 
-              {/* Password */}
               <div className="flex items-center border-b-2 border-gray-400 focus-within:border-orange-500 transition">
                 <BiKey className="text-xl text-gray-600 mr-2" />
-                <input
-                  type="password"
-                  name="pass"
-                  placeholder="Password"
-                  required
-                  className="flex-1 py-2 bg-transparent outline-none text-gray-800"
-                />
+                <input type="password" name="pass" placeholder="Password" required className="flex-1 py-2 bg-transparent outline-none text-gray-800" />
               </div>
 
-              {/* Confirm Password */}
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                className="input input-bordered w-full"
-                required
-              />
+              <input type="password" name="confirmPassword" placeholder="Confirm Password" className="input input-bordered w-full" required />
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className={`w-full bg-red-500 disabled:bg-gray-400  hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`}
-                disabled={loading}
-              >
-               {loading?<span className="loading loading-spinner loading-lg"></span>:" Register Now"}
+              <button type="submit" className={`w-full bg-red-500 disabled:bg-gray-400 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`} disabled={loading}>
+                {loading ? <span className="loading loading-spinner loading-lg"></span> : " Register Now"}
               </button>
 
-              {/* Login Link */}
               <p className="text-center text-sm text-gray-700 pt-4 border-t">
                 Already have an account?{" "}
                 <Link to="/login" className="text-blue-600 underline hover:text-blue-800">
@@ -266,13 +202,9 @@ const Register = () => {
             </form>
           </div>
 
-          {/* Lottie Animation */}
+          {/* Animation */}
           <div className="w-full lg:w-1/2 max-w-md">
-            <Lottie
-              animationData={Blood_Donation}
-              loop
-              className="w-[250px] mx-auto md:w-[350px] lg:w-full"
-            />
+            <Lottie animationData={Blood_Donation} loop className="w-[250px] mx-auto md:w-[350px] lg:w-full" />
           </div>
         </div>
       </div>

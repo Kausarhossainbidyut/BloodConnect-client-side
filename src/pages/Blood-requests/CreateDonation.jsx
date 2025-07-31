@@ -45,6 +45,7 @@ const CreateDonation = () => {
       upazila: data.recipientUpazila,
       hospitalName: data.hospitalName,
       fullAddress: data.fullAddress,
+      recipientName: data.recipientName,
       bloodGroup: data.bloodGroup,
       donationDate: data.donationDate,
       donationTime: data.donationTime,

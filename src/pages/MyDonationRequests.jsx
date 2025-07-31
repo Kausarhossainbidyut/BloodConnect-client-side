@@ -126,7 +126,7 @@ export default function MyDonationRequests() {
                   {req.recipientName}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
-                  {req.recipientDistrict}, {req.recipientUpazila}
+                  {req.fullAddress}
                 </td>
                 <td className="border-b border-gray-200 px-4 py-3 font-semibold text-red-600 whitespace-nowrap">
                   {req.bloodGroup}

@@ -24,6 +24,8 @@ import MyDonationRequests from "../pages/MyDonationRequests";
 import ProfilePage from "../components/ProfilePage";
 import AllBloodDonationRequest from "../pages/AllBloodDonationRequest";
 import ContentManagementPage from "../pages/ContentManagementPage";
+import FundingPage from "../pages/FundingPage";
+import StripeWrapper from "../pages/StripeWrapper";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -67,6 +69,10 @@ const mainRoutes = createBrowserRouter([
         element: <PrivateRoute><AvailableBooks /></PrivateRoute>,
       },
       {
+        path: "/give_funding",
+        element: <StripeWrapper></StripeWrapper>,
+      },
+      {
         path: "/details/:bookId",
         element: <DetailsPage />,
         loader: async ({ params }) => {
@@ -106,6 +112,11 @@ const mainRoutes = createBrowserRouter([
           {
             path: "/dashboard/create-donation-request",
             element: <CreateDonation></CreateDonation>
+
+          },
+          {
+            path: "/dashboard/funding-money",
+            element: <PrivateRoute><FundingPage/></PrivateRoute>
 
           },
           {

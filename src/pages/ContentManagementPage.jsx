@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useRole from "../hooks/useRole"; // আপনার রোল চেক হুক
+import Swal from "sweetalert2";
 
 const ContentManagementPage = () => {
   const [blogs, setBlogs] = useState([]);
@@ -29,16 +30,32 @@ const ContentManagementPage = () => {
 
   // Delete blog
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure to delete this blog?")) return;
+    const result = await Swal.fire({
+      title: "Are you sure to delete this blog?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+      position: "bottom",
+      showClass: {
+        popup: "animate__animated animate__fadeInUp",
+      },
+      hideClass: {
+        popup: "animate__animated animate__fadeOutDown",
+      },
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       await axios.delete(`http://localhost:5000/api/blogs/${id}`);
       setBlogs(blogs.filter((b) => b._id !== id));
     } catch (err) {
-      alert("Failed to delete blog");
+      Swal.fire("Error!", "Failed to delete blog", "error");
       console.error(err);
     }
   };
+
 
   // Toggle publish status (draft ↔ published)
   const handlePublishToggle = async (id) => {
@@ -48,7 +65,7 @@ const ContentManagementPage = () => {
       await axios.patch(`http://localhost:5000/api/blogs/${id}/status`, { status: newStatus });
       setBlogs(blogs.map((b) => (b._id === id ? { ...b, status: newStatus } : b)));
     } catch (err) {
-      alert("Failed to update status");
+      Swal.fire("Success!", "Failed to update status", "success");
       console.error(err);
     }
   };
@@ -96,12 +113,19 @@ const ContentManagementPage = () => {
               className="card bg-white shadow-md border border-gray-200 rounded-lg"
             >
               <figure>
-                <img
-                  src={blog.image}
-                  alt={blog.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
-                />
+                {blog.image ? (
+                  <img
+                    src={blog.image}
+                    alt={blog.title}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gray-200 flex items-center justify-center rounded-t-lg text-gray-500 italic">
+                    No image available
+                  </div>
+                )}
               </figure>
+
               <div className="card-body space-y-2">
                 <h2 className="card-title text-lg font-semibold">{blog.title}</h2>
                 <p className="text-gray-600 line-clamp-3">
@@ -110,9 +134,8 @@ const ContentManagementPage = () => {
                 <p className="text-sm text-gray-500">
                   Status:{" "}
                   <span
-                    className={`font-semibold ${
-                      blog.status === "published" ? "text-green-600" : "text-yellow-600"
-                    }`}
+                    className={`font-semibold ${blog.status === "published" ? "text-green-600" : "text-yellow-600"
+                      }`}
                   >
                     {blog.status}
                   </span>
@@ -127,9 +150,8 @@ const ContentManagementPage = () => {
                     <>
                       <button
                         onClick={() => handlePublishToggle(blog._id)}
-                        className={`btn btn-sm ${
-                          blog.status === "draft" ? "btn-success" : "btn-warning"
-                        }`}
+                        className={`btn btn-sm ${blog.status === "draft" ? "btn-success" : "btn-warning"
+                          }`}
                       >
                         {blog.status === "draft" ? "Publish" : "Unpublish"}
                       </button>
