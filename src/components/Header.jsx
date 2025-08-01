@@ -35,7 +35,7 @@ const Header = () => {
 
       <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
 
-      <li><NavLink to="/dashboard/funding-money" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>FundingPage</NavLink></li>
+      <li><NavLink to="/give_funding" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>FundingPage</NavLink></li>
 
       <li><NavLink to="/dashboard/profile" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
 

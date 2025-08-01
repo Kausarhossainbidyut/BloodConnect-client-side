@@ -25,7 +25,7 @@ export default function VolunteerDashboard() {
     fetch("http://localhost:5000/api/donation-requests")
       .then(res => res.json())
       .then(data => {
-        setTotalRequests(data.length);
+        setTotalRequests(data.total);
       });
   }, []);
 

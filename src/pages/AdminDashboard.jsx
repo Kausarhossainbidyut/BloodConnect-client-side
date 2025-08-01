@@ -19,7 +19,7 @@ export default function AdminDashboard() {
     });
 
     axios.get("http://localhost:5000/api/donation-requests").then((res) => {
-      setTotalBloodRequests(res.data.length);
+      setTotalBloodRequests(res.data.total);
     });
   }, []);
 
@@ -82,10 +82,13 @@ function StatCard({ icon, count, label, bgColor }) {
       <div className="p-5 bg-white bg-opacity-20 rounded-full flex items-center justify-center shadow-md">
         {icon}
       </div>
-      <div>
-        <h3 className="text-4xl font-extrabold tracking-tight">{count}</h3>
+      <div className="max-w-[150px]"> {/* অথবা আপনার প্রয়োজনে মান কম-বেশি করতে পারেন */}
+        <h3 className="text-4xl font-extrabold tracking-tight break-words">
+          {count}
+        </h3>
         <p className="text-lg opacity-90">{label}</p>
       </div>
     </div>
   );
 }
+

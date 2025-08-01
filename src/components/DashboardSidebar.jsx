@@ -3,16 +3,15 @@ import useRole from "../hooks/useRole";
 
 
 export default function DashboardSidebar() {
-  
+
   const NavItem = ({ to, icon, label }) => (
     <NavLink
       to={to}
-  
+
       className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-2 rounded-lg font-medium ${
-          isActive
-            ? "bg-blue-100 text-blue-600"
-            : "text-gray-700 hover:bg-gray-200"
+        `flex items-center gap-3 px-4 py-2 rounded-lg font-medium ${isActive
+          ? "bg-blue-100 text-blue-600"
+          : "text-gray-700 hover:bg-gray-200"
         }`
       }
     >
@@ -22,7 +21,7 @@ export default function DashboardSidebar() {
 
   const { role, loading } = useRole();
 
-  
+
   if (loading) return <h1>Loading...</h1>;
 
   if (role === "admin")
@@ -51,13 +50,13 @@ export default function DashboardSidebar() {
         <NavItem
           to="/dashboard/ContentManagementPage"
           // icon={<BookOpen size={20} />}
-          
+
           label="Content Management Page"
         />
         <NavItem
           to="/dashboard/funding-money"
           // icon={<BookOpen size={20} />}
-          
+
           label="Funding Page"
         />
 
@@ -81,13 +80,19 @@ export default function DashboardSidebar() {
           // icon={<BookOpen size={20} />}
           label="All Donation Requests"
         />
-         <NavItem
+        <NavItem
           to="/dashboard/ContentManagementPage"
           // icon={<BookOpen size={20} />}
-          
+
           label="ContentManagementPage"
         />
-         <NavItem
+        <NavItem
+          to="/dashboard/funding-money"
+          // icon={<BookOpen size={20} />}
+
+          label="Funding Page"
+        />
+        <NavItem
           to="/dashboard/profile"
           // icon={<User size={20} />}
           label="Profile"
@@ -119,7 +124,7 @@ export default function DashboardSidebar() {
         // icon={<BookOpen size={20} />}
         label="CreateDonation"
       />
-      
+
       <NavItem
         to="/dashboard/profile"
         // icon={<User size={20} />}

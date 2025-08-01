@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import useRole from "../hooks/useRole";
 import StripeWrapper from "../pages/StripeWrapper";
 import { AuthContext } from "../providers/AuthProvider";
+import { Link } from "react-router";
 
 export default function FundingPage() {
   const { user } = useContext(AuthContext);
@@ -11,13 +12,13 @@ export default function FundingPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [confirmed, setConfirmed] = useState(false);  // <-- checkbox state
   const { role } = useRole();
-  console.log({ role });
+  // console.log({ role });
 
   const { data = [], refetch } = useQuery({
     queryKey: ["fundings"],
     queryFn: async () => {
       const res = await axios.get(
-        "https://mission-scic11-server-template.vercel.app/api/funding"
+        "http://localhost:5000/api/funding"
       );
       return res.data;
     },
@@ -31,7 +32,7 @@ export default function FundingPage() {
     };
     try {
       await axios.post(
-        "https://mission-scic11-server-template.vercel.app/api/funding",
+        "http://localhost:5000/api/funding",
         fund
       );
       setAmount("");
@@ -50,12 +51,12 @@ export default function FundingPage() {
       <h2 className="text-3xl font-bold mb-6 text-center">🌟 Support Blood Donation</h2>
 
       <div className="flex justify-center mb-8">
-        <button
-          onClick={() => setIsOpen(true)}
+        <Link 
+          to={"/give_funding"}
           className="btn btn-primary px-6 py-2 text-white rounded-lg"
         >
           Donate Now
-        </button>
+        </Link>
       </div>
 
       {/* Modal */}
