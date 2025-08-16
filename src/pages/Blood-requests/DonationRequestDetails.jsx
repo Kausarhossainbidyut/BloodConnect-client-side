@@ -102,7 +102,7 @@ const DonationRequestDetails = () => {
 
       <button
         onClick={() => setShowModal(true)}
-        className="mt-8 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition w-full sm:w-auto"
+        className="mt-8 bg-red-600 cursor-pointer hover:bg-red-700 text-white font-semibold py-3 px-6 rounded-full shadow-md transition w-full sm:w-auto"
       >
         Donate Now
       </button>
