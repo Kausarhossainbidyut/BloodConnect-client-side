@@ -60,7 +60,7 @@ const Blog = () => {
 
         {/* Loading */}
         {loading && (
-          <div className="text-center py-10 text-lg font-semibold">Loading Blogs...</div>
+          <div className="text-center py-10 text-lg font-semibold"><span className="loading loading-spinner loading-xl"></span></div>
         )}
 
         {/* No Results */}

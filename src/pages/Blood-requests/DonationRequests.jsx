@@ -5,17 +5,20 @@ import axios from "axios";
 
 const DonationRequests = () => {
   const [requests, setRequests] = useState([]);
-
+   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios.get("https://assignment12khb.vercel.app/api/pending-donation-requests")
       .then(res => {
         // response handle করুন
         setRequests(res.data);
+        setLoading(false);
       })
       .catch(err => {
         // error handle করুন
         console.error(err);
+        setLoading(false);
       });
   }, []);
 
@@ -49,6 +52,10 @@ const DonationRequests = () => {
         Blood Donation Requests
       </h1>
 
+      {/* Loading */}
+        {loading && (
+          <div className="text-center py-10 text-lg font-semibold"><span className="loading loading-spinner loading-xl"></span></div>
+        )}
       {/* Requests Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {requests.length === 0 ? (

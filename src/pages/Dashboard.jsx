@@ -8,7 +8,7 @@ export default function Dashboard() {
   const { role, loading } = useRole();
 
   if (loading) {
-    return <h1>Loading</h1>;
+    return <h1 className="text-center"><span className="loading loading-spinner loading-xl"></span></h1>;
   }
 
   if (role === "donor") {

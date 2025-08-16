@@ -86,7 +86,7 @@ const ProfilePage = () => {
     }
   };
 
-  if (loading) return <p className="text-center mt-10">Loading profile...</p>;
+  if (loading) return <p className="text-center mt-10"><span className="loading loading-spinner loading-xl"></span></p>;
 
   return (
     <div

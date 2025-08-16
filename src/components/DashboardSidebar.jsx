@@ -22,7 +22,7 @@ export default function DashboardSidebar() {
   const { role, loading } = useRole();
 
 
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <h1 className="text-center"><span className="loading loading-spinner loading-xl"></span></h1>;
 
   if (role === "admin")
     return (

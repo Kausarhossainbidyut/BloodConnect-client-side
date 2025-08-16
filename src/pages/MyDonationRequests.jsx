@@ -9,11 +9,13 @@ export default function MyDonationRequests() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false); // <-- loading state added
   const itemsPerPage = 5;
 
   const fetchRequests = () => {
     if (!user?.email) return;
 
+    setLoading(true); // <-- start loading
     axios
       .get("https://assignment12khb.vercel.app/api/donation-requests", {
         params: {
@@ -26,8 +28,12 @@ export default function MyDonationRequests() {
       .then((res) => {
         setRequests(res.data.requests);
         setTotalPages(res.data.totalPages);
+        setLoading(false); // <-- stop loading
       })
-      .catch((err) => console.error("Error fetching requests:", err));
+      .catch((err) => {
+        console.error("Error fetching requests:", err);
+        setLoading(false); // <-- stop loading even if error
+      });
   };
 
   useEffect(() => {
@@ -53,6 +59,14 @@ export default function MyDonationRequests() {
     done: { color: "text-green-600", icon: "✔️" },
     canceled: { color: "text-red-600", icon: "❌" },
   };
+
+  // **Loading spinner overlay**
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-64">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
 
   return (
     <div className="p-6 max-w-full overflow-x-auto bg-white rounded-lg shadow-md">
