@@ -12,18 +12,20 @@ import HowItWorks from "../components/HowItWorks/HowItWorks";
 const Home = () => {
   return (
     <>
-      {/* <Banner></Banner> */}
-      <HeroSection></HeroSection>
-      <FeaturedSection></FeaturedSection>
-      <HomeSection></HomeSection>
-      <HowItWorks></HowItWorks>
-      <ChooseSection></ChooseSection>
-      <CallToAction></CallToAction>
-      <ContactUs></ContactUs>
-      <FAQ></FAQ>
-      <TeamSection></TeamSection>
-      {/* https://assignment12khb.vercel.app*/}
-      
+      <section id="home">
+        {/* <Banner></Banner> */}
+        <HeroSection></HeroSection>
+        <FeaturedSection></FeaturedSection>
+        <HomeSection></HomeSection>
+        <HowItWorks></HowItWorks>
+        <ChooseSection></ChooseSection>
+        <CallToAction></CallToAction>
+        <ContactUs></ContactUs>
+        <FAQ></FAQ>
+        <TeamSection></TeamSection>
+        {/* https://assignment12khb.vercel.app*/}
+
+      </section>
     </>
   );
 };

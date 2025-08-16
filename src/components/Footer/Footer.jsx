@@ -33,7 +33,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             <li><a href="#home" className="hover:text-[#E53935] transition">Home</a></li>
             <li><a href="#how" className="hover:text-[#E53935] transition">How It Works</a></li>
-            <li><a href="#donors" className="hover:text-[#E53935] transition">Find Donors</a></li>
+            <li><a href="#contactUs" className="hover:text-[#E53935] transition">ContactUs</a></li>
             <li><a href="#faq" className="hover:text-[#E53935] transition">Choose Section</a></li>
           </ul>
         </div>
@@ -42,12 +42,12 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold text-[#E53935] mb-3">Contact</h3>
           <ul className="space-y-3 text-sm">
-            <li className="flex items-center gap-2">
+            <li className="flex items-center underline text-blue-500 gap-2">
               <FaEnvelope className="text-[#E53935]" />
               khbidyut31@gmail.com
             </li>
-            <li className="flex items-center gap-2">
-              <FaPhoneAlt className="text-[#E53935]" />
+            <li className="flex items-center underline text-blue-500 gap-2">
+              <FaPhoneAlt className="text-[#E53935] " />
               +880-1796343549
             </li>
             <li className="flex items-center gap-2">
@@ -59,16 +59,16 @@ const Footer = () => {
 
         {/* Stay Connected */}
         <div>
-          <h3 className="text-lg font-semibold text-[#E53935] mb-3">Stay Connected</h3>
+          <h3 className="text-lg font-semibold text-[#E53935] mb-3">Stay Connected with Lead Developer</h3>
           <p className="text-sm mb-3">Follow us on social platforms for updates and stories.</p>
           <div className="flex space-x-3">
-            <a href="#" className="bg-[#fdecea] text-[#E53935] p-2 rounded-full hover:bg-[#fbd1cd] transition">
+            <a target='_blank' href="https://www.facebook.com/Kausarhossainbidyut" className="bg-[#fdecea] text-[#E53935] p-2 rounded-full hover:bg-[#fbd1cd] transition">
               <FaFacebookF />
             </a>
-            <a href="#" className="bg-[#fdecea] text-[#E53935] p-2 rounded-full hover:bg-[#fbd1cd] transition">
+            <a target='_blank' href="https://x.com/khbidyut31" className="bg-[#fdecea] text-[#E53935] p-2 rounded-full hover:bg-[#fbd1cd] transition">
               <FaTwitter />
             </a>
-            <a href="#" className="bg-[#fdecea] text-[#E53935] p-2 rounded-full hover:bg-[#fbd1cd] transition">
+            <a target='_blank' href="https://www.instagram.com/kausarhossainbidyut/" className="bg-[#fdecea] text-[#E53935] p-2 rounded-full hover:bg-[#fbd1cd] transition">
               <FaInstagram />
             </a>
           </div>

@@ -22,9 +22,9 @@ const CallToAction = () => {
             <FaHeart className="text-white" /> Register as Donor
           </Link>
 
-          <button className="bg-white text-red-500 border border-red-200 hover:bg-red-100 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-md">
+          <Link to={"donation_Requests"} className="bg-white cursor-pointer text-red-500 border border-red-200 hover:bg-red-100 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-sm sm:text-base transition-all duration-300 shadow-md">
             View Blood Requests
-          </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@ import { FaPhoneAlt, FaEnvelopeOpenText } from 'react-icons/fa';
 
 const ContactUs = () => {
     return (
-        <section className="bg-gradient-to-br from-red-50 via-white to-red-100 py-20 px-5 md:px-20">
+        <section id='contactUs' className="bg-gradient-to-br from-red-50 via-white to-red-100 py-20 px-5 md:px-20">
             <h2 className="text-4xl font-extrabold text-center text-red-700 mb-14">
                 Get in Touch
             </h2>
@@ -46,7 +46,7 @@ const ContactUs = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+                        className="w-full cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
                     >
                         Send Message
                     </button>
