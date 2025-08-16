@@ -24,7 +24,7 @@ const CheckoutForm = ({ amount, setAmount, handleRequest }) => {
 
   useEffect(() => {
     if (amount >= 1) {
-      axios.post("http://localhost:5000/create-payment-intent", {
+      axios.post("https://assignment12khb.vercel.app/create-payment-intent", {
         amount,
         user: { name: user.displayName, email: user.email },
       })
@@ -70,7 +70,7 @@ const CheckoutForm = ({ amount, setAmount, handleRequest }) => {
       handleRequest();
       Swal.fire("Thank you!", "Your donation was successful ❤️", "success");
 
-      await axios.post("http://localhost:5000/api/funding", {
+      await axios.post("https://assignment12khb.vercel.app/api/funding", {
         name: user.displayName,
         email: user.email,
         amount: parseFloat(amount),

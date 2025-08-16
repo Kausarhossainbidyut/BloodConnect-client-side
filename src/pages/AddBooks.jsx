@@ -31,7 +31,7 @@ export default function AddBooks() {
       status: "available",
       createdAt: new Date(),
     };
-    axios.post("http://localhost:5000/add-book", data).then((res) => {
+    axios.post("https://assignment12khb.vercel.app/add-book", data).then((res) => {
       console.log("🚀 ~ axios.post ~ res:", res.data);
     });
   };

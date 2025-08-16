@@ -12,7 +12,7 @@ export default function DashboardHome() {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:5000/api/donation-requests?email=${user.email}`)
+        .get(`https://assignment12khb.vercel.app/api/donation-requests?email=${user.email}`)
         .then((res) => {
           const requestsArray = res.data.requests;
           if (Array.isArray(requestsArray)) {
@@ -28,7 +28,7 @@ export default function DashboardHome() {
   }, [user]);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/api/donation-requests/${id}`).then(() => {
+    axios.delete(`https://assignment12khb.vercel.app/api/donation-requests/${id}`).then(() => {
       setRequests((prev) => prev.filter((r) => r._id !== id));
       document.getElementById("delete_modal").close();
     });
@@ -36,7 +36,7 @@ export default function DashboardHome() {
 
   const handleStatusUpdate = (id, status) => {
     axios
-      .patch(`http://localhost:5000/api/donation-requests/${id}`, {
+      .patch(`https://assignment12khb.vercel.app/api/donation-requests/${id}`, {
         donationStatus: status,
       })
       .then(() => {

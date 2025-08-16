@@ -32,7 +32,7 @@ const DonationRequestDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/donation-requests/${id}`);
+        const res = await axios.get(`https://assignment12khb.vercel.app/api/donation-requests/${id}`);
         setRequest(res.data);
       } catch (err) {
         console.error("Failed to load donation request", err);
@@ -43,7 +43,7 @@ const DonationRequestDetails = () => {
 
   const handleConfirmDonation = async () => {
     try {
-      await axios.patch(`http://localhost:5000/api/donation-requests/${id}`, {
+      await axios.patch(`https://assignment12khb.vercel.app/api/donation-requests/${id}`, {
         status: "inprogress",
         donorName: user.displayName || user.name || "Anonymous",
         donorEmail: user.email,

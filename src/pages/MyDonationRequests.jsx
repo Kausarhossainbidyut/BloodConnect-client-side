@@ -15,7 +15,7 @@ export default function MyDonationRequests() {
     if (!user?.email) return;
 
     axios
-      .get("http://localhost:5000/api/donation-requests", {
+      .get("https://assignment12khb.vercel.app/api/donation-requests", {
         params: {
           email: user.email,
           status: statusFilter,
@@ -36,7 +36,7 @@ export default function MyDonationRequests() {
 
   const handleStatusUpdate = async (id, newStatus) => {
     try {
-      await axios.patch(`http://localhost:5000/api/donation-requests/${id}`, {
+      await axios.patch(`https://assignment12khb.vercel.app/api/donation-requests/${id}`, {
         donationStatus: newStatus,
         donorName: user.displayName,
         donorEmail: user.email,

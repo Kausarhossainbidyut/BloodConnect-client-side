@@ -12,7 +12,7 @@ const Blog = () => {
     setLoading(true);
     const timer = setTimeout(() => {
       axios
-        .get(`http://localhost:5000/api/blogs?search=${encodeURIComponent(searchTerm)}&status=published`)
+        .get(`https://assignment12khb.vercel.app/api/blogs?search=${encodeURIComponent(searchTerm)}&status=published`)
         .then((res) => {
           setBlogPosts(res.data);
           setLoading(false);

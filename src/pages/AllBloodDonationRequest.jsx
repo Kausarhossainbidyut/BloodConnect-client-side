@@ -21,7 +21,7 @@ export default function AllBloodDonationRequests() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/donation-requests", {
+      const res = await axios.get("https://assignment12khb.vercel.app/api/donation-requests", {
         params: {
           status: statusFilter,
           page: currentPage,
@@ -50,7 +50,7 @@ export default function AllBloodDonationRequests() {
   const handleActionUpdate = async (id, newStatus) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/donation-requests/${id}`,
+        `https://assignment12khb.vercel.app/api/donation-requests/${id}`,
         { status: newStatus },
         {
           headers: {

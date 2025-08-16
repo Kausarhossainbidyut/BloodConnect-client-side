@@ -53,7 +53,7 @@ const AuthProvider = ({ children }) => {
 
       if(currentUser){
           
-      axios.get("http://localhost:5000/", {
+      axios.get("https://assignment12khb.vercel.app/", {
         headers: {
           Authorization: `Bearer ${currentUser.accessToken}`
         }

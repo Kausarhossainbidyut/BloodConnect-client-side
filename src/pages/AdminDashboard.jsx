@@ -8,17 +8,17 @@ export default function AdminDashboard() {
   const [totalBloodRequests, setTotalBloodRequests] = useState(0);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/users").then((res) => {
+    axios.get("https://assignment12khb.vercel.app/api/users").then((res) => {
       const donors = res.data.filter((user) => user.role === "donor");
       setTotalUsers(donors.length);
     });
 
-    axios.get("http://localhost:5000/api/funds").then((res) => {
+    axios.get("https://assignment12khb.vercel.app/api/funds").then((res) => {
       const total = res.data.reduce((sum, fund) => sum + Number(fund.amount), 0);
       setTotalFunds(total);
     });
 
-    axios.get("http://localhost:5000/api/donation-requests").then((res) => {
+    axios.get("https://assignment12khb.vercel.app/api/donation-requests").then((res) => {
       setTotalBloodRequests(res.data.total);
     });
   }, []);

@@ -18,7 +18,7 @@ export default function FundingPage() {
     queryKey: ["fundings"],
     queryFn: async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/funding"
+        "https://assignment12khb.vercel.app/api/funding"
       );
       return res.data;
     },
@@ -32,7 +32,7 @@ export default function FundingPage() {
     };
     try {
       await axios.post(
-        "http://localhost:5000/api/funding",
+        "https://assignment12khb.vercel.app/api/funding",
         fund
       );
       setAmount("");

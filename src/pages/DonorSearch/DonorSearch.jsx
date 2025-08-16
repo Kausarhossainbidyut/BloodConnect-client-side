@@ -47,7 +47,7 @@ const DonorSearch = () => {
     setDonors([]);
 
     try {
-      const res = await axios.get("http://localhost:5000/api/users/search", {
+      const res = await axios.get("https://assignment12khb.vercel.app/api/users/search", {
         params: {
           bloodGroup: filters.bloodGroup,
           district: filters.district,

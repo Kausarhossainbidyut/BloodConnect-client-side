@@ -26,7 +26,7 @@ const ProfilePage = () => {
     if (!user?.email) return;
     setLoading(true);
     axios
-      .get(`http://localhost:5000/api/users/${user.email}`)
+      .get(`https://assignment12khb.vercel.app/api/users/${user.email}`)
       .then((res) => {
         setProfileData(res.data);
         setLoading(false);
@@ -70,14 +70,14 @@ const ProfilePage = () => {
       const updatedFields = { name, avatar, bloodGroup, district, upazila };
 
       await axios.patch(
-        `http://localhost:5000/update-profile/${user.email}`,
+        `https://assignment12khb.vercel.app/update-profile/${user.email}`,
         updatedFields
       );
       setIsEditing(false);
       toast.success("Profile updated");
 
       const res = await axios.get(
-        `http://localhost:5000/api/users/${user.email}`
+        `https://assignment12khb.vercel.app/api/users/${user.email}`
       );
       setProfileData(res.data);
     } catch (err) {

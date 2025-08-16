@@ -33,14 +33,20 @@ const Header = () => {
 
       <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
 
-      <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
+      {
+        user && (
+          <>
+            <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
 
-      <li><NavLink to="/give_funding" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>FundingPage</NavLink></li>
+            <li><NavLink to="/give_funding" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>FundingPage</NavLink></li>
 
-      <li><NavLink to="/dashboard/profile" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
+            <li><NavLink to="/dashboard/profile" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Dashboard</NavLink></li>
+
+          </>
+        )
+      }
 
 
-      
 
 
 
@@ -77,7 +83,7 @@ const Header = () => {
       setLastScrollTop(st <= 0 ? 0 : st);
 
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      const timeout = setTimeout(() => setShowNavbar(true), 1000);
+      const timeout = setTimeout(() => setShowNavbar(true), 400);
       setScrollTimeout(timeout);
     };
 
@@ -118,10 +124,16 @@ const Header = () => {
           <li><NavLink to="/" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Home</NavLink></li>
           <li><NavLink to="/blog" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Blogs</NavLink></li>
           <li><NavLink to="/donation_Requests" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donation Requests</NavLink></li>
-           <li><NavLink to="/give_funding" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>FundingPage</NavLink></li>
-          <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
-          
-         
+          {
+            user && (
+              <>
+                <li><NavLink to="/give_funding" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>FundingPage</NavLink></li>
+                <li><NavLink to="/donor_Search" className={({ isActive }) => isActive ? "text-green-600 underline" : ""}>Donor Search</NavLink></li>
+
+              </>
+            )
+          }
+
         </ul>
       </div>
 

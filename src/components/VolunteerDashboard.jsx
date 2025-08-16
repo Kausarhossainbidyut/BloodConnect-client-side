@@ -8,21 +8,21 @@ export default function VolunteerDashboard() {
 
   useEffect(() => {
     // Dummy fetch requests (replace with your real API endpoints)
-    fetch("http://localhost:5000/api/users")
+    fetch("https://assignment12khb.vercel.app/api/users")
       .then(res => res.json())
       .then(data => {
         const donorCount = data.filter(user => user.role === "donor").length;
         setTotalUsers(donorCount);
       });
 
-    fetch("http://localhost:5000/api/funds")
+    fetch("https://assignment12khb.vercel.app/api/funds")
       .then(res => res.json())
       .then(data => {
         const total = data.reduce((sum, fund) => sum + fund.amount, 0);
         setTotalFunds(total);
       });
 
-    fetch("http://localhost:5000/api/donation-requests")
+    fetch("https://assignment12khb.vercel.app/api/donation-requests")
       .then(res => res.json())
       .then(data => {
         setTotalRequests(data.total);

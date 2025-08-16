@@ -13,7 +13,7 @@ export default function DetailsPage() {
   const handleRequest = () => {
     axios
       .patch(
-        `http://localhost:5000/request/${book._id}`,
+        `https://assignment12khb.vercel.app/request/${book._id}`,
         { donationAmount },
         {
           headers: {

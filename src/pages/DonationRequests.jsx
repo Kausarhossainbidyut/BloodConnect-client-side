@@ -52,7 +52,7 @@ export default function CreateDonationRequest() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/donation-requests",
+        "https://assignment12khb.vercel.app/api/donation-requests",
         requestData
       );
       Swal.fire("Success!", "Donation request created!", "success");

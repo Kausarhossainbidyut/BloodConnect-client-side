@@ -8,28 +8,28 @@ export default function AllUsers() {
   const usersPerPage = 5;
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/users").then((res) => setUsers(res.data));
+    axios.get("https://assignment12khb.vercel.app/api/users").then((res) => setUsers(res.data));
     
   }, []);
   
 
   const handleBlock = async (id) => {
-    await axios.patch(`http://localhost:5000/api/users/${id}`, { status: "blocked" });
+    await axios.patch(`https://assignment12khb.vercel.app/api/users/${id}`, { status: "blocked" });
     updateUserStatus(id, "blocked");
   };
 
   const handleUnblock = async (id) => {
-    await axios.patch(`http://localhost:5000/api/users/${id}`, { status: "active" });
+    await axios.patch(`https://assignment12khb.vercel.app/api/users/${id}`, { status: "active" });
     updateUserStatus(id, "active");
   };
 
   const handleMakeVolunteer = async (id) => {
-    await axios.patch(`http://localhost:5000/api/users/${id}`, { role: "volunteer" });
+    await axios.patch(`https://assignment12khb.vercel.app/api/users/${id}`, { role: "volunteer" });
     updateUserRole(id, "volunteer");
   };
 
   const handleMakeAdmin = async (id) => {
-    await axios.patch(`http://localhost:5000/api/users/${id}`, { role: "admin" });
+    await axios.patch(`https://assignment12khb.vercel.app/api/users/${id}`, { role: "admin" });
     updateUserRole(id, "admin");
   };
 

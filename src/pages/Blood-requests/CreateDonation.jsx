@@ -56,7 +56,7 @@ const CreateDonation = () => {
     };
 
     try {
-      await axios.post("http://localhost:5000/api/donation-requests", requestData);
+      await axios.post("https://assignment12khb.vercel.app/api/donation-requests", requestData);
       Swal.fire("Success!", "Donation request created!", "success");
       reset();
       setSelectedDistrictId("");

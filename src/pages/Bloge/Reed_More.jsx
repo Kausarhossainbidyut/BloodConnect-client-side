@@ -10,7 +10,7 @@ const Reed_More = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/reed_more/${id}`)
+      .get(`https://assignment12khb.vercel.app/reed_more/${id}`)
       .then((res) => {
         setBlog(res.data);
         setLoading(false);

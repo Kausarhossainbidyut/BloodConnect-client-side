@@ -19,7 +19,7 @@ const Home = () => {
       <ChooseSection></ChooseSection>
       <CallToAction></CallToAction>
       <ContactUs></ContactUs>
-      {/* http://localhost:5000/ */}
+      {/* https://assignment12khb.vercel.app*/}
       
     </>
   );

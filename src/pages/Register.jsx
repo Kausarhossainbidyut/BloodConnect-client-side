@@ -109,7 +109,7 @@ const Register = () => {
         status: "active",
       };
 
-      const result = await axios.post("http://localhost:5000/api/users", userInfo);
+      const result = await axios.post("https://assignment12khb.vercel.app/api/users", userInfo);
 
       if (result.data.insertedId) {
         setLoading(false);

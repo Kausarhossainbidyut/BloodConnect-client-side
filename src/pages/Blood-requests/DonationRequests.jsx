@@ -8,7 +8,7 @@ const DonationRequests = () => {
 
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/pending-donation-requests")
+    axios.get("https://assignment12khb.vercel.app/api/pending-donation-requests")
       .then(res => {
         // response handle করুন
         setRequests(res.data);

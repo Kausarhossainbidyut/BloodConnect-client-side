@@ -14,7 +14,7 @@ const ContentManagementPage = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/blogs", {
+        const res = await axios.get("https://assignment12khb.vercel.app/api/blogs", {
           params: {
             status: statusFilter,
           },
@@ -48,7 +48,7 @@ const ContentManagementPage = () => {
     if (!result.isConfirmed) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/blogs/${id}`);
+      await axios.delete(`https://assignment12khb.vercel.app/api/blogs/${id}`);
       setBlogs(blogs.filter((b) => b._id !== id));
     } catch (err) {
       Swal.fire("Error!", "Failed to delete blog", "error");
@@ -62,7 +62,7 @@ const ContentManagementPage = () => {
     try {
       const blog = blogs.find((b) => b._id === id);
       const newStatus = blog.status === "published" ? "draft" : "published";
-      await axios.patch(`http://localhost:5000/api/blogs/${id}/status`, { status: newStatus });
+      await axios.patch(`https://assignment12khb.vercel.app/api/blogs/${id}/status`, { status: newStatus });
       setBlogs(blogs.map((b) => (b._id === id ? { ...b, status: newStatus } : b)));
     } catch (err) {
       Swal.fire("Success!", "Failed to update status", "success");

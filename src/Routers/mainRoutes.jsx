@@ -77,7 +77,7 @@ const mainRoutes = createBrowserRouter([
         element: <DetailsPage />,
         loader: async ({ params }) => {
           const { data } = await axios.get(
-            `http://localhost:5000/details/${params.bookId}`
+            `https://assignment12khb.vercel.app/details/${params.bookId}`
           );
           return data;
         },

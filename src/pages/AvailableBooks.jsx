@@ -7,7 +7,7 @@ export default function AvailableBooks() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/available-books")
+      .get("https://assignment12khb.vercel.app/available-books")
       .then((res) => setBooks(res.data));
   }, []);
 

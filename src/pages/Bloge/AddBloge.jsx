@@ -23,7 +23,7 @@ export default function AddBlog() {
   // If editing: fetch blog data & fill form
   useEffect(() => {
     if (blogId) {
-      axios.get(`http://localhost:5000/api/blogs/${blogId}`).then((res) => {
+      axios.get(`https://assignment12khb.vercel.app/api/blogs/${blogId}`).then((res) => {
         const blog = res.data;
         setValue("title", blog.title);
         setValue("author", blog.author);
@@ -64,11 +64,11 @@ export default function AddBlog() {
 
       if (blogId) {
         // Update blog
-        await axios.put(`http://localhost:5000/api/blogs/${blogId}`, blogData);
+        await axios.put(`https://assignment12khb.vercel.app/api/blogs/${blogId}`, blogData);
         Swal.fire("Success", "Blog updated successfully!", "success");
       } else {
         // Create new blog
-        await axios.post("http://localhost:5000/api/blogs", blogData);
+        await axios.post("https://assignment12khb.vercel.app/api/blogs", blogData);
         Swal.fire("Success", "Blog created successfully!", "success");
       }
 
