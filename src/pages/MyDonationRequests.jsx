@@ -108,7 +108,6 @@ export default function MyDonationRequests() {
               "Time",
               "Status",
               "Donors",
-              "Actions",
               "Details",
             ].map((header) => (
               <th
@@ -148,50 +147,17 @@ export default function MyDonationRequests() {
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
                   {req.donationDate}
                 </td>
+
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
                   {req.donationTime}
                 </td>
-                <td
-                  className={`border-b border-gray-200 px-4 py-3 capitalize font-medium flex items-center gap-2 whitespace-nowrap ${
-                    statusStyles[req.donationStatus]?.color || "text-gray-700"
-                  }`}
-                >
-                  <span>{statusStyles[req.donationStatus]?.icon || "❔"}</span>
-                  <span>{req.donationStatus}</span>
+                <td className="border-b border-gray-200 px-4 py-3 capitalize font-medium whitespace-nowrap">
+                      {req.status}
+                    </td>
+                <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
+                  {req.donorName}
                 </td>
-                <td className="border-b border-gray-200 px-4 py-3 max-w-xs text-sm text-gray-700 overflow-y-auto max-h-24">
-                  {req.donors?.length > 0 ? (
-                    <ul className="list-disc pl-5">
-                      {req.donors.map((donor, i) => (
-                        <li key={i} className="select-text">
-                          {donor.name} ({donor.email})
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <span className="text-gray-500 italic select-none">
-                      No donors
-                    </span>
-                  )}
-                </td>
-                <td className="border-b border-gray-200 px-4 py-3 text-center space-x-2 whitespace-nowrap">
-                  {req.donationStatus === "inprogress" && (
-                    <>
-                      <button
-                        onClick={() => handleStatusUpdate(req._id, "done")}
-                        className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-sm rounded transition focus:outline-none focus:ring-2 focus:ring-green-400"
-                      >
-                        Done
-                      </button>
-                      <button
-                        onClick={() => handleStatusUpdate(req._id, "canceled")}
-                        className="px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition focus:outline-none focus:ring-2 focus:ring-red-400"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  )}
-                </td>
+                
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
                   <Link
                     to={`/donation-requests/${req._id}`}
@@ -211,11 +177,10 @@ export default function MyDonationRequests() {
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
           <button
             key={pageNum}
-            className={`px-3 py-1 border rounded-md transition focus:outline-none focus:ring-2 ${
-              currentPage === pageNum
+            className={`px-3 py-1 border rounded-md transition focus:outline-none focus:ring-2 ${currentPage === pageNum
                 ? "bg-blue-600 text-white ring-blue-400"
                 : "bg-white text-gray-700 hover:bg-blue-100 ring-transparent"
-            }`}
+              }`}
             onClick={() => setCurrentPage(pageNum)}
             aria-label={`Go to page ${pageNum}`}
           >
