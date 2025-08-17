@@ -34,7 +34,7 @@ const Footer = () => {
             <li><a href="#home" className="hover:text-[#E53935] transition">Home</a></li>
             <li><a href="#how" className="hover:text-[#E53935] transition">How It Works</a></li>
             <li><a href="#contactUs" className="hover:text-[#E53935] transition">ContactUs</a></li>
-            <li><a href="#faq" className="hover:text-[#E53935] transition">Choose Section</a></li>
+            <li><a href="#faq" className="hover:text-[#E53935] transition">FAQ</a></li>
           </ul>
         </div>
 
