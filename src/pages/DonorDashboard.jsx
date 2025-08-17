@@ -70,7 +70,7 @@ export default function DashboardHome() {
                   <th>Blood</th>
                   <th>Status</th>
                   <th>Donor</th>
-                  <th>Actions</th>
+                  {/* <th>Actions</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -81,16 +81,11 @@ export default function DashboardHome() {
                     <td>{req.donationDate}</td>
                     <td>{req.donationTime}</td>
                     <td>{req.bloodGroup}</td>
-                    <td>{req.donationStatus}</td>
+                    <td>{req.status}</td>
                     <td>
-                      {req.donationStatus === "inprogress" && (
-                        <>
-                          <div>{req.donorName}</div>
-                          <div className="text-xs">{req.donorEmail}</div>
-                        </>
-                      )}
+                      {req.donorName ? req.donorName : "No donor"}
                     </td>
-                    <td>
+                    {/* <td>
                       <div className="flex flex-wrap gap-1">
                         {req.donationStatus === "inprogress" && (
                           <>
@@ -136,7 +131,7 @@ export default function DashboardHome() {
                           View
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

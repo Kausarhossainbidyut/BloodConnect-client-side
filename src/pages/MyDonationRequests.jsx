@@ -155,7 +155,7 @@ export default function MyDonationRequests() {
                       {req.status}
                     </td>
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
-                  {req.donorName}
+                  {req.donorName ? req.donorName : "No donor"}
                 </td>
                 
                 <td className="border-b border-gray-200 px-4 py-3 whitespace-nowrap">
