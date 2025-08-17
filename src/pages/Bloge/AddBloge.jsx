@@ -170,7 +170,7 @@ export default function AddBlog() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all ${
+            className={`w-full cursor-pointer bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all ${
               loading ? "opacity-70 cursor-not-allowed" : ""
             }`}
           >
