@@ -85,7 +85,7 @@ const Login = () => {
               {/* Submit */}
               <button
                 type="submit"
-                className={`w-full bg-red-500 disabled:bg-gray-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`}
+                className={`w-full cursor-pointer bg-red-500 disabled:bg-gray-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`}
                 disabled={loading}
               >
                 {loading?<span className="loading loading-spinner loading-lg"></span>:" Login Now"}

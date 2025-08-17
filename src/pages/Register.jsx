@@ -189,7 +189,7 @@ const Register = () => {
 
               <input type="password" name="confirmPassword" placeholder="Confirm Password" className="input input-bordered w-full" required />
 
-              <button type="submit" className={`w-full bg-red-500 disabled:bg-gray-400 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition duration-300`} disabled={loading}>
+              <button type="submit" className={`w-full bg-red-500 disabled:bg-gray-400 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition cursor-pointer duration-300`} disabled={loading}>
                 {loading ? <span className="loading loading-spinner loading-lg"></span> : " Register Now"}
               </button>
 
