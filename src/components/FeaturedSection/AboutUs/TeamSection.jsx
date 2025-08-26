@@ -4,7 +4,7 @@ const team = [
   {
     name: "KH Bidyut",
     role: "Lead Developer",
-    image: "https://i.ibb.co/BHDG5Yx4/your-image.jpg", 
+    image: "https://i.ibb.co/BHDG5Yx4/your-image.jpg",
     linkedin: "https://www.linkedin.com/in/kausarhossainbidyut/",
     github: "https://github.com/Kausarhossainbidyut",
   }
@@ -36,16 +36,28 @@ const TeamSection = () => {
 
             {/* Card Content */}
             <div className="mt-20 sm:mt-24 text-center px-2">
-              <h3 className="text-red-600 font-bold text-xl sm:text-2xl md:text-2xl">{team[0].name}</h3>
+              <h3 className="text-red-600 font-bold text-xl sm:text-2xl md:text-2xl">
+                {team[0].name}
+              </h3>
               <p className="text-gray-700 mb-4 text-sm sm:text-base md:text-lg">{team[0].role}</p>
 
               {/* Social Links */}
-              <div className="flex justify-center space-x-6 text-blue-600 mb-4">
-                <a target="_blank" href={team[0].linkedin} className="hover:text-blue-800 text-blue-600 transition">
-                  <FaLinkedin size={20} sm={24} />
+              <div className="flex justify-center space-x-6 mb-4">
+                <a
+                  href={team[0].linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 transition"
+                >
+                  <FaLinkedin className="text-2xl sm:text-3xl" />
                 </a>
-                <a target="_blank" href={team[0].github} className="hover:text-gray-900 text-gray-800 transition">
-                  <FaGithub size={20} sm={24} />
+                <a
+                  href={team[0].github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-800 hover:text-gray-900 transition"
+                >
+                  <FaGithub className="text-2xl sm:text-3xl" />
                 </a>
               </div>
 

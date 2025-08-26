@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
+import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
   {
@@ -69,25 +70,40 @@ const FAQ = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="border border-gray-200 rounded-lg overflow-hidden"
+              className={`border border-gray-200 rounded-lg overflow-hidden transition-shadow duration-300 ${
+                openIndex === index ? "shadow-lg" : "shadow-sm"
+              }`}
             >
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full flex justify-between items-center px-6 py-4 bg-red-50 hover:bg-red-100 cursor-pointer
-                 transition"
+                className="w-full flex justify-between items-center px-6 py-4 bg-red-50 hover:bg-red-100 cursor-pointer transition"
               >
                 <span className="text-left text-gray-800 font-medium">
                   {faq.question}
                 </span>
-                <span className="text-red-600">
-                  {openIndex === index ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                <span
+                  className={`text-red-600 transition-transform duration-300 ${
+                    openIndex === index ? "rotate-180" : ""
+                  }`}
+                >
+                  <IoIosArrowDown />
                 </span>
               </button>
-              {openIndex === index && (
-                <div className="px-6 py-4 bg-white text-gray-700">
-                  {faq.answer}
-                </div>
-              )}
+
+              <AnimatePresence>
+                {openIndex === index && (
+                  <motion.div
+                    key="answer"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="px-6 py-4 bg-white text-gray-700 overflow-hidden"
+                  >
+                    {faq.answer}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))}
         </div>
