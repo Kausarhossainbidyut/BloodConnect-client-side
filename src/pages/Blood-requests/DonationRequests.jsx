@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { FaTint, FaEye, FaMapMarkerAlt, FaClock, FaCalendarAlt, FaTint as BloodDropIcon } from "react-icons/fa";
+import {
+  FaTint,
+  FaEye,
+  FaMapMarkerAlt,
+  FaClock,
+  FaCalendarAlt,
+  FaHospital,
+  FaPhoneAlt,
+  FaUser,
+  FaSyncAlt,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 const DonationRequests = () => {
   const [requests, setRequests] = useState([]);
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    axios.get("https://assignment12khb.vercel.app/api/pending-donation-requests")
-      .then(res => {
-        // response handle করুন
+    axios
+      .get("https://assignment12khb.vercel.app/api/pending-donation-requests")
+      .then((res) => {
         setRequests(res.data);
         setLoading(false);
       })
-      .catch(err => {
-        // error handle করুন
+      .catch((err) => {
         console.error(err);
         setLoading(false);
       });
@@ -53,9 +62,12 @@ const DonationRequests = () => {
       </h1>
 
       {/* Loading */}
-        {loading && (
-          <div className="text-center py-10 text-lg font-semibold"><span className="loading loading-spinner loading-xl"></span></div>
-        )}
+      {loading && (
+        <div className="text-center py-10 text-lg font-semibold">
+          <span className="loading loading-spinner loading-xl"></span>
+        </div>
+      )}
+
       {/* Requests Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {requests.length === 0 ? (
@@ -66,37 +78,81 @@ const DonationRequests = () => {
           requests.map((req) => (
             <div
               key={req._id}
-              className="border border-red-300 rounded-3xl shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform duration-300 bg-white p-6 flex flex-col justify-between"
+              className="border border-red-300 rounded-3xl shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform duration-300 bg-white p-6 flex flex-col justify-between min-h-[420px]"
             >
-              <div>
+              {/* Card Content */}
+              <div className="flex-grow">
                 {/* Recipient Name */}
-                <h3 className="text-2xl font-semibold text-red-700 mb-4 truncate">
+                <h3 className="text-2xl font-semibold text-red-700 mb-3 truncate flex items-center gap-2">
+                  <FaUser className="text-gray-600" />
                   {req.name}
                 </h3>
 
                 {/* Location */}
-                <p className="text-gray-700 flex items-center gap-2 mb-3 font-medium">
+                <p className="text-gray-700 flex items-center gap-2 mb-2 font-medium">
                   <FaMapMarkerAlt className="text-red-600" />
-                  <span>{req.district}, {req.upazila}</span>
+                  {req.district}, {req.upazila}
                 </p>
 
+                {/* Hospital */}
+                  <p className="text-gray-700 flex items-center gap-2 mb-2 font-medium">
+                    <FaHospital className="text-blue-600" />
+                    {req.hospital || req.hospitalName}
+                  </p>
+                
+
                 {/* Blood Group */}
-                <p className="text-red-600 font-semibold text-lg mb-4 flex items-center gap-2">
-                  <BloodDropIcon />
+                <p className="text-red-600 font-semibold text-lg mb-3 flex items-center gap-2">
+                  <FaTint />
                   Blood Group: <span className="uppercase">{req.bloodGroup}</span>
                 </p>
 
+                {/* Bags Needed */}
+                {req.bagsNeeded && (
+                  <p className="text-gray-800 flex items-center gap-2 mb-2">
+                    🩸 Bags Needed:{" "}
+                    <span className="font-bold">{req.bagsNeeded}</span>
+                  </p>
+                )}
+
                 {/* Date */}
-                <p className="text-gray-600 mb-2 flex items-center gap-2">
+                <p className="text-gray-600 mb-1 flex items-center gap-2">
                   <FaCalendarAlt />
-                  Date: <span className="font-medium">{formatDate(req.createdAt)}</span>
+                  Date:{" "}
+                  <span className="font-medium">
+                    {formatDate(req.createdAt)}
+                  </span>
                 </p>
 
                 {/* Time */}
-                <p className="text-gray-600 flex items-center gap-2">
+                <p className="text-gray-600 mb-1 flex items-center gap-2">
                   <FaClock />
-                  Time: <span className="font-medium">{formatTime(req.createdAt)}</span>
+                  Time:{" "}
+                  <span className="font-medium">
+                    {formatTime(req.createdAt)}
+                  </span>
                 </p>
+
+                {/* Phone */}
+                {req.contactNumber && (
+                  <p className="text-gray-700 flex items-center gap-2 mb-1">
+                    <FaPhoneAlt className="text-green-600" />
+                    <span className="font-medium">
+                      {req.contactNumber.slice(0, 6)}**** {/* partially hidden */}
+                    </span>
+                  </p>
+                )}
+
+                {/* Status */}
+                {req.status && (
+                  <p className="text-gray-700 flex items-center gap-2 mt-1">
+                    <FaSyncAlt className="text-purple-600 animate-spin-slow" />
+                    Status:{" "}
+                    <span className="font-semibold capitalize">
+                      {req.status}
+                    </span>
+                  </p>
+                )}
               </div>
 
               {/* View Details Button */}
